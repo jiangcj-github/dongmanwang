@@ -1,8 +1,8 @@
 /*custom bootstrap style*/
 
-body{margin:0px;padding: 0px;background: #F4F4F4;}
+body{margin:0px;padding: 0px;background: #f0f0f0;color:#393939;}
 .navbar{height: 60px;padding-left: 40px;padding-right: 40px;}
-.navbar-item{float:left;height: 100%;}
+.navbar-item{float:left;height: 100%;margin:0 10px;}
 .navbar-item.right{float:right;}
 .navbar-item.align-center{display: flex;align-items: center;justify-content: center}
 .btn:hover{outline:none;}
