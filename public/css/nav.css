@@ -1,0 +1,37 @@
+/*custom bootstrap style*/
+
+body{margin:0px;padding: 0px;background: #F4F4F4;}
+.navbar{height: 60px;padding-left: 40px;padding-right: 40px;}
+.navbar-item{float:left;height: 100%;}
+.navbar-item.right{float:right;}
+.navbar-item.align-center{display: flex;align-items: center;justify-content: center}
+.btn:hover{outline:none;}
+.drop{position: relative;}
+.drop-body{
+    display: none;
+    position: absolute;
+    padding: 15px 0;
+    margin-top: 2px;
+    background-clip: padding-box;
+    background-color:#fff;
+    border-radius:4px;
+    border: 1px solid rgba(0,0,0,0.15);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+}
+.drop-body.drop-right{right:0;left:auto;}
+.error-msg{
+    color: white;
+    background-color: black;
+    padding-left: 5px;
+    margin-bottom: 10px;
+    border-radius:2px;
+    display: none;
+    position: relative;
+}
+.error-msg >.error-msg-close{
+    position: absolute;
+    right:0;
+    cursor: default;
+    width: 20px;
+    text-align: center;
+}

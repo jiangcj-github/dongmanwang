@@ -1,0 +1,3 @@
+.section{background: darkslategray;}
+.section-header{color:white;background:black;font-size:1.2em;line-height:1.8;padding:0 10px;}
+.section-header>a{color:white;float:right;margin-left:10px;}
