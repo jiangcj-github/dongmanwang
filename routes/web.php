@@ -12,7 +12,7 @@
 */
 
 Route::get("/", function () {
-    return view("main2");
+    return view("play-html5");
 });
 
 Route::get("/main","MainController@getMain");

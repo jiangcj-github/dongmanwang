@@ -1,7 +1,15 @@
 /*custom bootstrap style*/
 
 body{margin:0px;padding: 0px;background: #f0f0f0;color:#393939;}
-.topBar{width:100%;position:fixed;top:0;z-index:1000;box-shadow:0 0 10px black;background:white;}
+.topBar{
+    width:100%;
+    position:fixed;
+    top:0;
+    z-index:1000;
+    background:white;
+    height:60px;
+    border-bottom: 1px solid #cfcfcf;
+}
 .topBar-item{float:left;height: 100%;margin:0 10px;}
 .topBar-item.right{float:right;}
 .topBar-item.align-center{display: flex;align-items: center;justify-content: center}

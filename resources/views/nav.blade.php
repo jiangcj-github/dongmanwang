@@ -15,7 +15,7 @@
 <body>
     <script src="/lib/jquery/dist/jquery.min.js"></script>
     <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <nav class="topBar" style="height:60px;">
+    <nav class="topBar">
         <div class="topBar-item right align-center">
             <span class="search-frame">
                 <input type="search" class="search" placeholder="快来搜一搜吧！">
@@ -29,6 +29,7 @@
         <script src="/lib/ladda/dist/spin.min.js"></script>
         <script src="/lib/ladda/dist/ladda.min.js"></script>
     @show
-    @
+    @section("js")
+    @show
 </body>
 </html>

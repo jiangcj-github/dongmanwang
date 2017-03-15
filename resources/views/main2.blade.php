@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="/css/main2.css">
 @append
 @section("content")
-    <div class="base">
+    <div class="content">
         <div class="section">
             <div class="section-header">
                 最新上映
