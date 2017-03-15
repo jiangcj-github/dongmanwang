@@ -1,9 +1,9 @@
 body{font-family: "微软雅黑";box-sizing: border-box;}
 .content{display:flex;flex-direction:column;align-items:center;margin-top:60px;}
 
-.playSec{width:1000px;height: 550px;margin:20px 0;position: relative}
+.playSec{width:1024px;height: 550px;margin:20px 0;position: relative}
 .play-left{width:800px;height:100%;position:absolute;border:5px solid black;}
-.play-right{right:0;width:200px;height:100%;position:absolute;background:gray;}
+.play-right{right:0;width:224px;height:100%;position:absolute;border:5px solid black;}
 .vpost{
     position:absolute;
     width: 100%;
@@ -11,7 +11,6 @@ body{font-family: "微软雅黑";box-sizing: border-box;}
     z-index:1;
     background-size:100% 100% !important;
     background-repeat: no-repeat !important;
-    display:none;
 }
 .vpost-btn{cursor:pointer;}
 .vpost-btn:hover{opacity:0.7;}
@@ -28,18 +27,9 @@ body{font-family: "微软雅黑";box-sizing: border-box;}
 }
 .verr.eject{display: flex;}
 .vplay{background: black;width: 100%;height: 100%;}
-
-
 :-webkit-full-screen{ width: 100% !important;height: 100% !important;}
-:-moz-full-screen{
-    width: 100% !important;
-    height: 100% !important;
-}
-:-ms-fullscreen{
-    width: 100% !important;
-    height: 100% !important;
-}
-
+:-moz-full-screen{width: 100% !important;height: 100% !important;}
+:-ms-fullscreen{width: 100% !important;height: 100% !important;}
 .vctrl{
     position: absolute;
     bottom: 0;
@@ -116,6 +106,42 @@ body{font-family: "微软雅黑";box-sizing: border-box;}
 }
 .playSpeed-item.active{color: yellow;}
 .fullscreen{font-size: 20px;cursor: pointer;}
+/**/
+.play-list{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: black;
+}
+.plist-header{
+    color:white;
+    padding: 10px;
+    background: red;
+    flex-grow:1;
+}
+.plist-item{
+    height: 80px;
+    border-bottom:1px solid #cccccc;
+    padding:5px 0;
+    display: flex;
+    cursor: pointer;
+}
+.plist-item:hover{opacity:0.8;}
+.plist-item>img{
+    width: 120px;
+    height: 70px;
+    flex-shrink:0;
+    flex-grow:0;
+}
+.pitem-info{
+    margin-left:5px;
+    width: 100px;
+    overflow: hidden;
+    color:white;
+}
+
+
 
 
 .barrage{
