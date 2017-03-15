@@ -1,10 +1,14 @@
 /*custom bootstrap style*/
 
 body{margin:0px;padding: 0px;background: #f0f0f0;color:#393939;}
-.navbar{height: 60px;padding-left: 40px;padding-right: 40px;}
-.navbar-item{float:left;height: 100%;margin:0 10px;}
-.navbar-item.right{float:right;}
-.navbar-item.align-center{display: flex;align-items: center;justify-content: center}
+.topBar{width:100%;position:fixed;top:0;z-index:1000;box-shadow:0 0 10px black;background:white;}
+.topBar-item{float:left;height: 100%;margin:0 10px;}
+.topBar-item.right{float:right;}
+.topBar-item.align-center{display: flex;align-items: center;justify-content: center}
+.search-frame{border:3px solid red;background:red;}
+.search{border:none;outline:none;padding:5px 0 5px 5px;}
+.search-btn{padding:0 5px;color:white;cursor:pointer;}
+/*
 .btn:hover{outline:none;}
 .drop{position: relative;}
 .drop-body{
@@ -35,3 +39,4 @@ body{margin:0px;padding: 0px;background: #f0f0f0;color:#393939;}
     width: 20px;
     text-align: center;
 }
+*/

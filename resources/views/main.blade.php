@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="/css/main.css">
 @append
 @section("content")
-    <div class="leftBar" style="width: 200px;background:gray;"></div>
+    <div class="leftBar" style="width: 200px;"></div>
     <div class="content">
         @yield("base")
     </div>

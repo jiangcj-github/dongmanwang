@@ -12,7 +12,7 @@
 */
 
 Route::get("/", function () {
-    return view("main/m1");
+    return view("main2");
 });
 
 Route::get("/main","MainController@getMain");
