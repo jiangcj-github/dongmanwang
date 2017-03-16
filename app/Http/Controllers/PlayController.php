@@ -52,7 +52,7 @@ class PlayController extends BaseController
             //$request->session()->forget('video_token');
             //参考apache中mod_auto_token配置
             $secret = "lindakai";
-            $protectedPath = "/video/";
+            $protectedPath = "/mv/";
             $ipLimitation = true;
             $hexTime = dechex(time());
             $fileName = "/1.mp4";
@@ -65,21 +65,6 @@ class PlayController extends BaseController
             return redirect($url);
         //}
         return "404 Not Found";
-    }
-    
-    public function getImage(Request $request){
-       
-        
-        $filename=$request->input("file");
-        $finfo=finfo_open(FILEINFO_MIME_TYPE);
-        $mimetype = finfo_file($finfo,$filename);
-        finfo_close($finfo);
-        $fp = fopen($filename, 'rb', 0);
-        $data="data:".$mimetype.";base64,".base64_encode(fread($fp,filesize($filename)));
-        //$data = gzdeflate ($data, 9);
-        return $data;
-
-
     }
 
 }
