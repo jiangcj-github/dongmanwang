@@ -43,29 +43,27 @@ class PlayController extends BaseController
         ]);
     }
 
-
     public function getVideo(Request $request){
 
         //比较client_token与server_token是否一致
-        $client_token=$request->input("token","");
-        $server_token=session("video_token",Random::getRandString(40));
-        if($server_token==$client_token){
-            $request->session()->forget('video_token');
+        //$client_token=$request->input("token","");
+        //$server_token=session("video_token",Random::getRandString(40));
+        //if($server_token==$client_token){
+            //$request->session()->forget('video_token');
             //参考apache中mod_auto_token配置
             $secret = "lindakai";
-            $protectedPath = "/mv/";
-            $ipLimitation = false;
+            $protectedPath = "/video/";
+            $ipLimitation = true;
             $hexTime = dechex(time());
-            $fileName = "/21.mp4";
+            $fileName = "/1.mp4";
             if ($ipLimitation) {
-                $token = md5($secret . $fileName . $hexTime . $_SERVER['REMOTE_ADDR']);
-            }
-            else {
+                $token = md5($secret . $fileName . $hexTime . $_SERVER["REMOTE_ADDR"]);
+            }else {
                 $token = md5($secret . $fileName. $hexTime);
             }
             $url = $protectedPath . $token. "/" . $hexTime . $fileName;
             return redirect($url);
-        }
+        //}
         return "404 Not Found";
     }
     

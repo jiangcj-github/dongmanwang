@@ -16,7 +16,7 @@
                 </svg>
                 <div class="verr">加载视频出错</div>
                 <video class="vplay" id="video">
-                    <source src="mv/1.mp4" type="video/mp4" />
+                    <source src="/video" type="video/mp4" />
                 </video>
                 <div class="vctrl">
                     <div class="progressBar">
@@ -51,38 +51,44 @@
                     <div class="plist-header">
                         相关内容
                     </div>
-                    <div class="plist-item">
+                    <div class="plist-item playing">
                         <img src="img/Koala.jpg">
+                        <span class="pitem-label">48:00</span>
                         <div class="pitem-info">
                             喜洋洋和灰太狼
                         </div>
                     </div>
                     <div class="plist-item">
                         <img src="img/Koala.jpg">
+                        <span class="pitem-label">48:00</span>
                         <div class="pitem-info">
                             喜洋洋和灰太狼
                         </div>
                     </div>
                     <div class="plist-item">
                         <img src="img/Koala.jpg">
+                        <span class="pitem-label">48:00</span>
                         <div class="pitem-info">
                             喜洋洋和灰太狼
                         </div>
                     </div>
                     <div class="plist-item">
                         <img src="img/Koala.jpg">
+                        <span class="pitem-label">48:00</span>
                         <div class="pitem-info">
                             喜洋洋和灰太狼
                         </div>
                     </div>
                     <div class="plist-item">
                         <img src="img/Koala.jpg">
+                        <span class="pitem-label">48:00</span>
                         <div class="pitem-info">
                             喜洋洋和灰太狼
                         </div>
                     </div>
                     <div class="plist-item">
                         <img src="img/Koala.jpg">
+                        <span class="pitem-label">48:00</span>
                         <div class="pitem-info">
                             喜洋洋和灰太狼
                         </div>
@@ -90,8 +96,8 @@
                 </div>
             </div>
         </div>
-        <div id="commentDiv">
-            <div class="sendComment">
+        <div class="commentSec">
+            <div class="com-send">
                 <div class="sc_label">
                     发表留言:
                 </div>
@@ -99,7 +105,7 @@
                 <div class="sc_emotion"><img src="/img/laugh.png" style="width:24px;height:24px;"></div>
                 <div class="sc_submit">提交</div>
             </div>
-            <div class="commentList">
+            <div class="com-list">
                 <div class="cl_header">
                     <a href="javascript:void(0);">按时间</a>
                     <span style="margin-left:3px;margin-right: 3px;color:black;">|</span>
@@ -110,7 +116,7 @@
                         <img src="" class="headImg">
                         <div class="item-content">
                             <div class="ic-header">name<span class="small">time</span></div>
-                            <div class="ic-main">text</div>
+                            <div class="ic-main">CSS 后代选择器 CSS 相邻兄弟选择器 与后代选择器相比,CSS 后代选择器 CSS 相邻兄弟选择器 与后代选择器相比,子元素选择器(Child selectors)只能选择作为某元素子元素的元素。选择子元素 如果您不希望选择任意的后代元素...子元素选择器(Child selectors)只能选择作为某元素子元素的元素。选择子元素 如果您不希望选择任意的后代元素...</div>
                         </div>
 
                     </div>

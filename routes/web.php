@@ -31,3 +31,12 @@ Route::get("/mv/1.mp4",function(){
 Route::get("/redirect",function(){
     return view("redirect");
 });
+
+/*
+<Location "E:/Phpstorm/dongman/public/mv">
+AuthTokenSecret       "lindakai"
+      AuthTokenPrefix       /video/
+      AuthTokenTimeout      60
+      AuthTokenLimitByIp    on
+</Location>
+*/
