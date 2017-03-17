@@ -1,50 +1,13 @@
 /*custom bootstrap style*/
 
 body{margin:0px;padding: 0px;background: #f0f0f0;color:#393939;}
-.topBar{
-    width:100%;
-    position:fixed;
-    top:0;
-    z-index:1000;
-    background:white;
-    height:60px;
-    border-bottom: 1px solid #cfcfcf;
-}
+.topBar{background:white;height:60px;border-bottom: 1px solid #cfcfcf;padding:0 100px 0 30px;}
 .topBar-item{float:left;height: 100%;margin:0 10px;}
 .topBar-item.right{float:right;}
 .topBar-item.align-center{display: flex;align-items: center;justify-content: center}
+.logo{width:auto;height:100%;}
+.logo:hover{cursor:pointer;}
+.logo-text{font-size: 1.8em;font-weight: bold;text-shadow: 2px 2px 2px grey;}
 .search-frame{border:3px solid red;background:red;}
 .search{border:none;outline:none;padding:5px 0 5px 5px;}
 .search-btn{padding:0 5px;color:white;cursor:pointer;}
-/*
-.btn:hover{outline:none;}
-.drop{position: relative;}
-.drop-body{
-    display: none;
-    position: absolute;
-    padding: 15px 0;
-    margin-top: 2px;
-    background-clip: padding-box;
-    background-color:#fff;
-    border-radius:4px;
-    border: 1px solid rgba(0,0,0,0.15);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.175);
-}
-.drop-body.drop-right{right:0;left:auto;}
-.error-msg{
-    color: white;
-    background-color: black;
-    padding-left: 5px;
-    margin-bottom: 10px;
-    border-radius:2px;
-    display: none;
-    position: relative;
-}
-.error-msg >.error-msg-close{
-    position: absolute;
-    right:0;
-    cursor: default;
-    width: 20px;
-    text-align: center;
-}
-*/

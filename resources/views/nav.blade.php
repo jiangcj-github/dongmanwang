@@ -16,6 +16,10 @@
     <script src="/lib/jquery/dist/jquery.min.js"></script>
     <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <nav class="topBar">
+        <div class="topBar-item align-center">
+            <img src="img/logo.svg" class="logo">
+            <span class="logo-text">动画电影网</span>
+        </div>
         <div class="topBar-item right align-center">
             <span class="search-frame">
                 <input type="search" class="search" placeholder="快来搜一搜吧！">
@@ -23,13 +27,17 @@
             </span>
         </div>
     </nav>
-    @yield("content")
+    @yield("main")
     @section("js_lib")
         <script src="/js/nav.js"></script>
         <script src="/lib/ladda/dist/spin.min.js"></script>
         <script src="/lib/ladda/dist/ladda.min.js"></script>
     @show
     @section("js")
+        <script>
+            $(".topBar").on("dragstart",function(){return false;});
+            $(".topBar").on("selectstart",function(){return false;});
+        </script>
     @show
 </body>
 </html>
