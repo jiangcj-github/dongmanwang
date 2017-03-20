@@ -12,8 +12,22 @@
 */
 
 Route::get("/",function(){
+   return response()->view("main");
+});
+
+Route::get("/m1",function(){
+   return response()->view("content/m1");
+});
+
+Route::get("/main2",function(){
    return response()->view("main2");
 });
+
+
+Route::get("/play",function(){
+   return response()->view("play-html5");
+});
+
 Route::get("/main","MainController@getMain");
-Route::get("/play","PlayController@getPlay");
+//Route::get("/play","PlayController@getPlay");
 Route::get("/video","PlayController@getVideo");

@@ -4,10 +4,10 @@ $(".playSec").on("selectstart",function(){return false;});
 //$(".playSec").on("contextmenu",function(){return false});
 var video=document.getElementById("video");
 //
-$(".play-left").mouseenter(function(){
+$(".vctrl").mouseenter(function(){
     $(".vctrl").stop().animate({"opacity":1},300);
 });
-$(".play-left").mouseleave(function(){
+$(".hideCtrl").click(function(){
     if(!video.paused){
         $(".vctrl").stop().animate({"opacity":0},300);
     }
@@ -31,10 +31,6 @@ $(video).on("play",function(e){
 $(video).on("pause",function(e){
     $(".btnPlay").children("i").removeClass("icon-pause");
     $(".btnPlay").children("i").addClass("icon-play");
-});
-$(video).on("error",function(e){
-    $("#verr").addClass("eject");
-    $("#verr").html("当前视频无法播放，请<a href='javascript:location.reload()'>刷新</a>页面！");
 });
 $(video).on("loadedmetadata", function() {
     $(".duration").text(formatSeconds(video.duration));
@@ -191,6 +187,9 @@ function formatSeconds(s){
     if(s>3600){
         hour=parseInt(s/3600);
         s=s%3600;
+        if(hour<10){
+            hour="0"+hour;
+        }
         hour=hour+":"
     }
     minute=parseInt(s/60);
@@ -233,4 +232,8 @@ $(".ic-main").html(function(){
 });
 $(".reply-content").html(function(){
     return replace_em($(this).html());
+});
+
+$(".push-cell-img").click(function(){
+   open("/play","_blank");
 });

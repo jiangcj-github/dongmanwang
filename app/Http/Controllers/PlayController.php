@@ -57,7 +57,7 @@ class PlayController extends BaseController
         $protectedPath = "/mv/";
         $ipLimitation = true;
         $hexTime = dechex(time());
-        $fileName = "/1.mp4";
+        $fileName = "/3.mp4";
         if ($ipLimitation) {
             $token = md5($secret . $fileName . $hexTime . $_SERVER["REMOTE_ADDR"]);
         } else {

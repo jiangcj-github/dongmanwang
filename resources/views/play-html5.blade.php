@@ -1,20 +1,19 @@
 @extends("nav")
-@section("title","play")
+@section("title","动画电影网")
 @section("css_lib")
     @parent
     <link rel="stylesheet" href="/css/play.css">
 @stop
-@section("content")
+@section("main")
     <div class="content">
         <div class="playSec">
             <div class="play-left">
-                <svg class="vpost" viewBox="0,0,100,100" style="background: url(img/Koala.jpg);">
+                <svg class="vpost" viewBox="0,0,100,100" style="background: url(img/1.jpg);">
                     <g class="vpost-btn">
                         <circle r="7" cx="50" cy="50" stroke="white" fill="transparent"></circle>
                         <polygon points="48,53 48,47 53,50" fill="white"/>
                     </g>
                 </svg>
-                <div class="verr">加载视频出错</div>
                 <video class="vplay" id="video">
                     <source src="/video" type="video/mp4" />
                 </video>
@@ -25,7 +24,7 @@
                     </div>
                     <div class="btnPlay control-item"><i class="icon-play"></i></div>
                     <div class="progressTime control-item">
-                        <span class="current">00:00</span>/
+                        <span class="current">00:00</span>&nbsp;/&nbsp;
                         <span class="duration">00:00</span>
                     </div>
                     <!--controll right-->
@@ -43,7 +42,9 @@
                             <div class="volume"></div>
                         </div>
                     </div>
-
+                    <div class="hideCtrl control-item right">
+                        <i class="icon-double-angle-down"></i>
+                    </div>
                 </div>
             </div>
             <div class="play-right">
@@ -93,6 +94,43 @@
                             喜洋洋和灰太狼
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="infoSec">
+            <img class="info-img" src="img/1.jpg">
+            <div class="info-text">
+                <div class="info-text-name">你的名字</div>
+                <div class="info-text-line">地区：日本</div>
+                <div class="info-text-line">作者：新海诚</div>
+                <div class="info-text-line">上映时间：2016</div>
+                <div class="info-text-line">时长：02:34:00</div>
+            </div>
+        </div>
+        <div class="pushSec">
+            <div class="push-header">
+                相关内容
+            </div>
+            <div class="push-row">
+                <div class="push-cell">
+                    <div class="push-cell-img" style="background: url(/img/1.jpg);"></div>
+                    <div class="push-cell-info">萤火之森</div>
+                </div>
+                <div class="push-cell">
+                    <div class="push-cell-img" style="background: url(/img/1.jpg);"></div>
+                    <div class="push-cell-info">萤火之森</div>
+                </div>
+                <div class="push-cell">
+                    <div class="push-cell-img" style="background: url(/img/1.jpg);"></div>
+                    <div class="push-cell-info">萤火之森</div>
+                </div>
+                <div class="push-cell">
+                    <div class="push-cell-img" style="background: url(/img/1.jpg);"></div>
+                    <div class="push-cell-info">萤火之森</div>
+                </div>
+                <div class="push-cell">
+                    <div class="push-cell-img" style="background: url(/img/1.jpg);"></div>
+                    <div class="push-cell-info">萤火之森</div>
                 </div>
             </div>
         </div>
