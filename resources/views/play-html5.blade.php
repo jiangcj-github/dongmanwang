@@ -15,7 +15,7 @@
                     </g>
                 </svg>
                 <video class="vplay" id="video">
-                    <source src="/video" type="video/mp4" />
+                    <source src="/video?id={!! $video->id !!}&token={!! $video_token !!}" type="video/mp4" />
                 </video>
                 <div class="vctrl">
                     <div class="progressBar">
@@ -53,42 +53,42 @@
                         相关内容
                     </div>
                     <div class="plist-item playing">
-                        <img src="img/Koala.jpg">
+                        <img src="img/1.jpg">
                         <span class="pitem-label">48:00</span>
                         <div class="pitem-info">
                             喜洋洋和灰太狼
                         </div>
                     </div>
                     <div class="plist-item">
-                        <img src="img/Koala.jpg">
+                        <img src="img/1.jpg">
                         <span class="pitem-label">48:00</span>
                         <div class="pitem-info">
                             喜洋洋和灰太狼
                         </div>
                     </div>
                     <div class="plist-item">
-                        <img src="img/Koala.jpg">
+                        <img src="img/1.jpg">
                         <span class="pitem-label">48:00</span>
                         <div class="pitem-info">
                             喜洋洋和灰太狼
                         </div>
                     </div>
                     <div class="plist-item">
-                        <img src="img/Koala.jpg">
+                        <img src="img/1.jpg">
                         <span class="pitem-label">48:00</span>
                         <div class="pitem-info">
                             喜洋洋和灰太狼
                         </div>
                     </div>
                     <div class="plist-item">
-                        <img src="img/Koala.jpg">
+                        <img src="img/1.jpg">
                         <span class="pitem-label">48:00</span>
                         <div class="pitem-info">
                             喜洋洋和灰太狼
                         </div>
                     </div>
                     <div class="plist-item">
-                        <img src="img/Koala.jpg">
+                        <img src="img/1.jpg">
                         <span class="pitem-label">48:00</span>
                         <div class="pitem-info">
                             喜洋洋和灰太狼
@@ -100,11 +100,11 @@
         <div class="infoSec">
             <img class="info-img" src="img/1.jpg">
             <div class="info-text">
-                <div class="info-text-name">你的名字</div>
-                <div class="info-text-line">地区：日本</div>
-                <div class="info-text-line">作者：新海诚</div>
-                <div class="info-text-line">上映时间：2016</div>
-                <div class="info-text-line">时长：02:34:00</div>
+                <div class="info-text-name">{!! $video->name !!}</div>
+                <div class="info-text-line">地区：{!! $video->nation !!}</div>
+                <div class="info-text-line">作者：{!! $video->author !!}</div>
+                <div class="info-text-line">上映时间：{!! $video->firstshow !!}</div>
+                <div class="info-text-line">时长：{!! $video->duration !!}</div>
             </div>
         </div>
         <div class="pushSec">
@@ -149,14 +149,13 @@
                     <span style="margin-left:3px;margin-right: 3px;color:black;">|</span>
                     <a href="javascript:void(0);">按热度</a>
                 </div>
-                @foreach([1,2,3,4,5] as $k)
+                @foreach($comment as $key=>$value)
                     <div class="cl-item">
-                        <img src="" class="headImg">
+                        <img src="/headimg?id={!! $value->headimg !!}" class="headImg">
                         <div class="item-content">
-                            <div class="ic-header">name<span class="small">time</span></div>
-                            <div class="ic-main">CSS 后代选择器 CSS 相邻兄弟选择器 与后代选择器相比,CSS 后代选择器 CSS 相邻兄弟选择器 与后代选择器相比,子元素选择器(Child selectors)只能选择作为某元素子元素的元素。选择子元素 如果您不希望选择任意的后代元素...子元素选择器(Child selectors)只能选择作为某元素子元素的元素。选择子元素 如果您不希望选择任意的后代元素...</div>
+                            <div class="ic-header">{!! $value->name !!}<span class="small">{!! $value->time !!}</span></div>
+                            <div class="ic-main">{!! $value->text !!}</div>
                         </div>
-
                     </div>
                 @endforeach
                 <div class="cl-pageControll">
