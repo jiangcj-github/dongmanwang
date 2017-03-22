@@ -31,3 +31,14 @@ Route::get("/play/video/poster","PlayController@getPoster");
 Route::get("/play/video/screenshot","PlayController@getScreenShot");
 
 Route::get("/main","MainController@getMain");
+
+Route::get("/admin","AdminController@admin");
+Route::post("/admin/login","AdminController@login");
+Route::group(["middleware"=>"admin"],function(){
+    Route::get("/admin/home","AdminController@getHome");
+    Route::post("/admin/home/addCategery","AdminController@addCategery");
+    Route::post("/admin/home/deleteCategery","AdminController@deleteCategery");
+    Route::post("/admin/home/renameCategery","AdminController@renameCategery");
+});
+
+

@@ -7,7 +7,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Support\Facades\DB;
 
-class MemberController extends BaseController
+class MemberController extends Controller
 {
 
     public function getHeadimg(Request $request)

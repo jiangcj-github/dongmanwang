@@ -6,7 +6,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Support\Facades\DB;
 
-class MainController extends BaseController
+class MainController extends Controller
 {
 
     public function getMain(Request $request){

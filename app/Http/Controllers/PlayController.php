@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Util\TimeUtil;
 
-class PlayController extends BaseController
+class PlayController extends Controller
 {
 
 

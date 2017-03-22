@@ -11,13 +11,15 @@
         <link rel="stylesheet" href="/css/nav.css">
         <link rel="stylesheet" href="/lib/ladda/dist/ladda-themeless.min.css">
     @show
+    @section("css")
+    @show
 </head>
 <body>
     <script src="/lib/jquery/dist/jquery.min.js"></script>
     <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <nav class="topBar">
         <div class="topBar-item align-center">
-            <img src="img/logo.svg" class="logo">
+            <img src="/img/logo.svg" class="logo">
             <span class="logo-text">动画电影网</span>
         </div>
         <div class="topBar-item right align-center">
