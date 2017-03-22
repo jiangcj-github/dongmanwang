@@ -23,9 +23,11 @@ Route::get("/main2",function(){
    return response()->view("main2");
 });
 
-Route::get("/headimg","MemberController@getHeadimg");
+Route::get("/member/headimg","MemberController@getHeadimg");
 
 Route::get("/play","PlayController@getPlay");
-Route::get("/video","PlayController@getVideo");
+Route::get("/play/video","PlayController@getVideo");
+Route::get("/play/video/poster","PlayController@getPoster");
+Route::get("/play/video/screenshot","PlayController@getScreenShot");
 
 Route::get("/main","MainController@getMain");

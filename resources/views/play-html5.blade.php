@@ -8,14 +8,14 @@
     <div class="content">
         <div class="playSec">
             <div class="play-left">
-                <svg class="vpost" viewBox="0,0,100,100" style="background: url(img/1.jpg);">
+                <svg class="vpost" viewBox="0,0,100,100" style="background: url(/play/video/screenshot?id={!! $video->screenshot !!});">
                     <g class="vpost-btn">
                         <circle r="7" cx="50" cy="50" stroke="white" fill="transparent"></circle>
                         <polygon points="48,53 48,47 53,50" fill="white"/>
                     </g>
                 </svg>
                 <video class="vplay" id="video">
-                    <source src="/video?id={!! $video->id !!}&token={!! $video_token !!}" type="video/mp4" />
+                    <source src="/play/video?file={!! $video->url !!}&token={!! $video_token !!}" type="video/mp4" />
                 </video>
                 <div class="vctrl">
                     <div class="progressBar">
@@ -52,53 +52,18 @@
                     <div class="plist-header">
                         相关内容
                     </div>
-                    <div class="plist-item playing">
-                        <img src="img/1.jpg">
-                        <span class="pitem-label">48:00</span>
-                        <div class="pitem-info">
-                            喜洋洋和灰太狼
+                    @foreach($play_list as $key=>$value)
+                        <div class="plist-item" data-video="{!! $value->id !!}">
+                            <img src="/play/video/screenshot?id={!! $value->screenshot !!}">
+                            <span class="pitem-label">{!! $value->duration !!}</span>
+                            <div class="pitem-info">{!! $value->name !!}</div>
                         </div>
-                    </div>
-                    <div class="plist-item">
-                        <img src="img/1.jpg">
-                        <span class="pitem-label">48:00</span>
-                        <div class="pitem-info">
-                            喜洋洋和灰太狼
-                        </div>
-                    </div>
-                    <div class="plist-item">
-                        <img src="img/1.jpg">
-                        <span class="pitem-label">48:00</span>
-                        <div class="pitem-info">
-                            喜洋洋和灰太狼
-                        </div>
-                    </div>
-                    <div class="plist-item">
-                        <img src="img/1.jpg">
-                        <span class="pitem-label">48:00</span>
-                        <div class="pitem-info">
-                            喜洋洋和灰太狼
-                        </div>
-                    </div>
-                    <div class="plist-item">
-                        <img src="img/1.jpg">
-                        <span class="pitem-label">48:00</span>
-                        <div class="pitem-info">
-                            喜洋洋和灰太狼
-                        </div>
-                    </div>
-                    <div class="plist-item">
-                        <img src="img/1.jpg">
-                        <span class="pitem-label">48:00</span>
-                        <div class="pitem-info">
-                            喜洋洋和灰太狼
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
         <div class="infoSec">
-            <img class="info-img" src="img/1.jpg">
+            <img class="info-img" src="/play/video/poster?id={!! $video->poster !!}">
             <div class="info-text">
                 <div class="info-text-name">{!! $video->name !!}</div>
                 <div class="info-text-line">地区：{!! $video->nation !!}</div>
@@ -112,26 +77,12 @@
                 相关内容
             </div>
             <div class="push-row">
-                <div class="push-cell">
-                    <div class="push-cell-img" style="background: url(/img/1.jpg);"></div>
-                    <div class="push-cell-info">萤火之森</div>
-                </div>
-                <div class="push-cell">
-                    <div class="push-cell-img" style="background: url(/img/1.jpg);"></div>
-                    <div class="push-cell-info">萤火之森</div>
-                </div>
-                <div class="push-cell">
-                    <div class="push-cell-img" style="background: url(/img/1.jpg);"></div>
-                    <div class="push-cell-info">萤火之森</div>
-                </div>
-                <div class="push-cell">
-                    <div class="push-cell-img" style="background: url(/img/1.jpg);"></div>
-                    <div class="push-cell-info">萤火之森</div>
-                </div>
-                <div class="push-cell">
-                    <div class="push-cell-img" style="background: url(/img/1.jpg);"></div>
-                    <div class="push-cell-info">萤火之森</div>
-                </div>
+                @foreach($push_list as $key=>$value)
+                    <div class="push-cell" data-video="{!! $value->id !!}">
+                        <div class="push-cell-img" style="background: url(/play/video/poster?id={!! $value->poster !!});"></div>
+                        <div class="push-cell-info">{!! $value->name !!}</div>
+                    </div>
+                @endforeach
             </div>
         </div>
         <div class="commentSec">
@@ -151,7 +102,7 @@
                 </div>
                 @foreach($comment as $key=>$value)
                     <div class="cl-item">
-                        <img src="/headimg?id={!! $value->headimg !!}" class="headImg">
+                        <img src="/member/headimg?id={!! $value->headimg !!}" class="headImg">
                         <div class="item-content">
                             <div class="ic-header">{!! $value->name !!}<span class="small">{!! $value->time !!}</span></div>
                             <div class="ic-main">{!! $value->text !!}</div>

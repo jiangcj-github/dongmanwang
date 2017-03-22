@@ -5,84 +5,28 @@ namespace App\Util;
 
 class Encode
 {
-
-    public static function encode($string,$key)
-    {
-        $src  = array("/","+","=");
-        $dist = array("_a","_b","_c");
-        $key=md5($key);
-        $key_length=strlen($key);
-        $string=substr(md5($string.$key),0,8).$string;
-        $string_length=strlen($string);
-        $rndkey=array();
-        $box=array();
-        $result='';
-        for($i=0;$i<=255;$i++)
-        {
-            $rndkey[$i]=ord($key[$i%$key_length]);
-            $box[$i]=$i;
+    public static function encode($code) {
+        $code = iconv('UTF-8', 'UCS-2', $code);
+        $len=strlen($code);
+        $c="";
+        for($n=0;$n<$len;$n++){
+            $char=ord($code[$n]);
+            $b1= (int)($char>>4)+97;
+            $b2= (int)($char&15)+97;
+            $c.=chr($b1).chr($b2);
         }
-        for($j=$i=0;$i<256;$i++)
-        {
-            $j=($j+$box[$i]+$rndkey[$i])%256;
-            $tmp=$box[$i];
-            $box[$i]=$box[$j];
-            $box[$j]=$tmp;
-        }
-        for($a=$j=$i=0;$i<$string_length;$i++)
-        {
-            $a=($a+1)%256;
-            $j=($j+$box[$a])%256;
-            $tmp=$box[$a];
-            $box[$a]=$box[$j];
-            $box[$j]=$tmp;
-            $result.=chr(ord($string[$i])^($box[($box[$a]+$box[$j])%256]));
-        }
-        $rdate  = str_replace('=','',base64_encode($result));
-        $rdate  = str_replace($src,$dist,$rdate);
-        return $rdate;
+        return $c;
     }
 
-    public static function decode($string,$key){
-        $src  = array("/","+","=");
-        $dist = array("_a","_b","_c");
-        $string  = str_replace($dist,$src,$string);
-        $key=md5($key);
-        $key_length=strlen($key);
-        $string=base64_decode($string);
-        $string_length=strlen($string);
-        $rndkey=array();
-        $box=array();
-        $result='';
-        for($i=0;$i<=255;$i++)
-        {
-            $rndkey[$i]=ord($key[$i%$key_length]);
-            $box[$i]=$i;
+    public static function decode($code){
+        $len=strlen($code);
+        $c="";
+        for($n=0;$n<$len;$n+=2){
+            $b1=(ord($code[$n])-97)<<4;
+            $b2=ord($code[$n+1])-97;
+            $c.=chr($b1+$b2);
         }
-        for($j=$i=0;$i<256;$i++)
-        {
-            $j=($j+$box[$i]+$rndkey[$i])%256;
-            $tmp=$box[$i];
-            $box[$i]=$box[$j];
-            $box[$j]=$tmp;
-        }
-        for($a=$j=$i=0;$i<$string_length;$i++)
-        {
-            $a=($a+1)%256;
-            $j=($j+$box[$a])%256;
-            $tmp=$box[$a];
-            $box[$a]=$box[$j];
-            $box[$j]=$tmp;
-            $result.=chr(ord($string[$i])^($box[($box[$a]+$box[$j])%256]));
-        }
-        if(substr($result,0,8)==substr(md5(substr($result,8).$key),0,8))
-        {
-            return substr($result,8);
-        }
-        else
-        {
-            return '';
-        }
-
+        $c=iconv("UCS-2","UTF-8",$c);
+        return $c;
     }
 }
