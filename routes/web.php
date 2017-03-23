@@ -38,7 +38,11 @@ Route::group(["middleware"=>"admin"],function(){
     Route::get("/admin/home","AdminController@getHome");
     Route::post("/admin/home/addCategery","AdminController@addCategery");
     Route::post("/admin/home/deleteCategery","AdminController@deleteCategery");
+    Route::post("/admin/home/deleteCategerys","AdminController@deleteCategerys");
     Route::post("/admin/home/renameCategery","AdminController@renameCategery");
+    Route::get("/admin/home/showCategery","AdminController@showCategery");
+    Route::post("/admin/home/uploadPoster","AdminController@uploadPoster");
+    Route::post("/admin/home/uploadVideo","AdminController@uploadVideo");
 });
 
 
