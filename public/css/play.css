@@ -79,4 +79,5 @@ body{font-family: "微软雅黑";box-sizing: border-box;}
 .ic-main{line-height: 20px;font-size: 14px;}
 
 .cl-pageControll{display:flex;justify-content: flex-end;height: 50px;align-items: center;}
-.pg-btn{font-size: 14px;margin: 0 6px;}
+.pg-btn{font-size: 14px;margin: 0 3px;letter-spacing:2px;}
+.cl-pageControll .btn{margin:3px;outline:none !important;border-radius:0;}

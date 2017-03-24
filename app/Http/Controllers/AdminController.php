@@ -23,17 +23,16 @@ class AdminController extends Controller
         }
     }
 
+    //------------------------------------------------------------------------------------------------------------------
     public function getHome(Request $request){
-        $limit=$request->input("cat_limit",20);
-        $offset=$request->input("cat_offset",0);
         //categery
-        $result1=DB::select("select * from video_categery limit ? offset ?",[$limit,$offset]);
-        $result2=DB::select("select count(*) as count from video_categery");
+        $cat_page=$request->input("cat_page",1);
+        $result1=DB::select("select * from video_categery limit ? offset ?",[10,($cat_page-1)*10]);
+        $result11=DB::select("select count(id) as count from video_categery");
         return view("admin/home",[
             "categery"=>$result1,
-            "cat_limit"=>$limit,
-            "cat_offset"=>$offset,
-            "cat_count"=>$result2[0]->count
+            "cat_page"=>$cat_page,
+            "cat_count"=>$result11[0]->count
         ]);
     }
 
@@ -99,9 +98,42 @@ class AdminController extends Controller
         return response()->json(["url"=>"/img/m_guochan.jpg"]);
     }
 
-    public function getVideoList(){
+    //------------------------------------------------------------------------------------------------------------------
+    public function getVideoManage(Request $request){
 
-        return view("admin/video-list");
+        //video
+        $v_page=$request->input("v_page",1);
+        $srch_cat=$request->input("srch_cat",-1);
+        if($srch_cat==-1){
+            $result1=DB::select("select video.*,video_categery.name as cat_name from video join video_categery on video.categery=video_categery.id ".
+                "limit ? offset ?",[20,($v_page-1)*20]);
+        }else{
+            $result1=DB::select("select video.*,video_categery.name as cat_name from video join video_categery on video.categery=video_categery.id ".
+                "where video.categery=? limit ? offset ?",[$srch_cat,20,($v_page-1)*20]);
+        }
+        $result11=DB::select("select count(id) as count from video");
+        //categery
+        $result2=DB::select("select * from video_categery");
+
+        return view("admin/video-manage",[
+            "video"=>$result1,
+            "v_page"=>$v_page,
+            "v_count"=>$result11[0]->count,
+            "categery"=>$result2,
+            "srch_cat"=>$srch_cat
+        ]);
     }
+
+    public function deleteV(Request $request){
+
+        return response()->json(["msg"=>"ok"]);
+    }
+
+    public function deleteVs(Request $request){
+
+        return response()->json(["msg"=>"ok"]);
+    }
+
+
 }
 

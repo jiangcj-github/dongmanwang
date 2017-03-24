@@ -8,14 +8,14 @@
     <div class="content">
         <div class="playSec">
             <div class="play-left">
-                <svg class="vpost" viewBox="0,0,100,100" style="background: url(/play/video/screenshot?id={!! $video->screenshot !!});">
+                <svg class="vpost" viewBox="0,0,100,100" style="background: url(/data/video/screenshot/{!! $video->id !!}.png);">
                     <g class="vpost-btn">
                         <circle r="7" cx="50" cy="50" stroke="white" fill="transparent"></circle>
                         <polygon points="48,53 48,47 53,50" fill="white"/>
                     </g>
                 </svg>
                 <video class="vplay" id="video">
-                    <source src="/play/video?file={!! $video->url !!}&token={!! $video_token !!}" type="video/mp4" />
+                    <source src="/play/video?id={!! $video->id !!}&token={!! $video_token !!}" type="video/mp4" />
                 </video>
                 <div class="vctrl">
                     <div class="progressBar">
@@ -54,7 +54,7 @@
                     </div>
                     @foreach($play_list as $key=>$value)
                         <div class="plist-item" data-video="{!! $value->id !!}">
-                            <img src="/play/video/screenshot?id={!! $value->screenshot !!}">
+                            <img src="/data/video/screenshot/{!! $value->id !!}.png">
                             <span class="pitem-label">{!! $value->duration !!}</span>
                             <div class="pitem-info">{!! $value->name !!}</div>
                         </div>
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="infoSec">
-            <img class="info-img" src="/play/video/poster?id={!! $video->poster !!}">
+            <img class="info-img" src="/data/video/poster/{!! $video->id !!}.png">
             <div class="info-text">
                 <div class="info-text-name">{!! $video->name !!}</div>
                 <div class="info-text-line">地区：{!! $video->nation !!}</div>
@@ -79,7 +79,7 @@
             <div class="push-row">
                 @foreach($push_list as $key=>$value)
                     <div class="push-cell" data-video="{!! $value->id !!}">
-                        <div class="push-cell-img" style="background: url(/play/video/poster?id={!! $value->poster !!});"></div>
+                        <div class="push-cell-img" style="background: url(/data/video/poster/{!! $value->id !!}.png);"></div>
                         <div class="push-cell-info">{!! $value->name !!}</div>
                     </div>
                 @endforeach
@@ -102,7 +102,7 @@
                 </div>
                 @foreach($comment as $key=>$value)
                     <div class="cl-item">
-                        <img src="/member/headimg?id={!! $value->headimg !!}" class="headImg">
+                        <img src="/data/member/headimg/{!! $value->user_id !!}.png" class="headImg">
                         <div class="item-content">
                             <div class="ic-header">{!! $value->name !!}<span class="small">{!! $value->time !!}</span></div>
                             <div class="ic-main">{!! $value->text !!}</div>
@@ -110,11 +110,18 @@
                     </div>
                 @endforeach
                 <div class="cl-pageControll">
-                    <span class="pg-btn">当前位置：第5页</span>
-                    <a class="pg-btn" href="javascript:void(0)">上一页</a>
-                    <a class="pg-btn" href="javascript:void(0)">下一页</a>
-                    <a class="pg-btn" href="javascript:void(0)">首页</a>
-                    <a class="pg-btn" href="javascript:void(0)">尾页</a>
+                    <span class="pg-btn">第{!! $cm_page !!}页</span>
+                    <span class="pg-btn">共{!! ceil($cm_count/10) !!}页</span>
+                    @if($cm_page<=1)
+                        <button class="btn btn-warning btn-xs" disabled>上一页</button>
+                    @else
+                        <button class="btn btn-warning btn-xs" onclick="location.href='/play?id={!! $video->id !!}&cm_page={!! $cm_page-1 !!}'">上一页</button>
+                    @endif
+                    @if($cm_page>=ceil($cm_count/10))
+                        <button class="btn btn-warning btn-xs" disabled>下一页</button>
+                    @else
+                        <button class="btn btn-warning btn-xs" onclick="location.href='/play?id={!! $video->id !!}&cm_page={!! $cm_page+1 !!}'">下一页</button>
+                    @endif
                 </div>
             </div>
         </div>

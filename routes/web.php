@@ -23,12 +23,8 @@ Route::get("/main2",function(){
    return response()->view("main2");
 });
 
-Route::get("/member/headimg","MemberController@getHeadimg");
-
 Route::get("/play","PlayController@getPlay");
-Route::get("/play/video","PlayController@getVideo");
-Route::get("/play/video/poster","PlayController@getPoster");
-Route::get("/play/video/screenshot","PlayController@getScreenShot");
+Route::get("/play/video","PlayController@getMp4");
 
 Route::get("/main","MainController@getMain");
 
@@ -40,9 +36,12 @@ Route::group(["middleware"=>"admin"],function(){
     Route::post("/admin/home/deleteCategery","AdminController@deleteCategery");
     Route::post("/admin/home/deleteCategerys","AdminController@deleteCategerys");
     Route::post("/admin/home/renameCategery","AdminController@renameCategery");
-    Route::get("/admin/home/showCategery","AdminController@showCategery");
     Route::post("/admin/home/uploadPoster","AdminController@uploadPoster");
     Route::post("/admin/home/uploadVideo","AdminController@uploadVideo");
+
+    Route::get("/admin/videoManage","AdminController@getVideoManage");
+    Route::post("/admin/videoManage/deleteV","AdminController@deleteV");
+    Route::post("/admin/videoManage/deleteVs","AdminController@deleteVs");
 });
 
 

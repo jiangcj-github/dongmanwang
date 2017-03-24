@@ -14,8 +14,7 @@ class MemberController extends Controller
     {
         $id=$request->input("id");
         //headimg
-        $result=DB::select("select * from member_headimg where md5(id)=?",[$id]);
-        return response($result[0]->data)->header("Content-Type", $result[0]->mime);
+
     }
 
 }

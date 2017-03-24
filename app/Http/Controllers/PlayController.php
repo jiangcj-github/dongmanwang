@@ -15,50 +15,45 @@ class PlayController extends Controller
 
 
     public function getPlay(Request $request){
-        $video_id = $request->input("id",md5(1));
-        //video
-        $result1 = DB::select("select * from video where md5(id)=?", [$video_id]);
-        $video=$result1[0];
-        $video->id=md5($video->id);
-        $video->url=Encode::encode($video->url);
-        $video->poster=md5($video->poster);
-        $video->screenshot=md5($video->screenshot);
-        //comment
-        $result2 = DB::select("select comment.*,member.headimg,member.name from comment join member on comment.user_id=member.id where md5(video_id)=? order by comment.time desc limit 10", [$video_id]);
-        foreach ($result2 as $key=>$value){
-            $result2[$key]->headimg=md5($value->headimg);
-            $result2[$key]->time=TimeUtil::time_tran($value->time);
+        $video_id = $request->input("id");
+        if($video_id==null){
+            return view("errors/404");
         }
+        //video
+        $result1 = DB::select("select * from video where id=?", [$video_id]);
+        //comment
+        $cm_page=$request->input("cm_page",1);
+        $result21=DB::select("select count(id) as count from comment");
+        $result2 = DB::select("select user_id,text,time,name from comment join member on comment.user_id=member.id where video_id=? ".
+            "order by comment.time desc limit ? offset ?",[$video_id,10,($cm_page-1)*10]);
         //video_token
         $video_token = Random::getRandString(20);
         session(["video_token" => $video_token]);
         //play-list
         $play_list=[];
         for($i=0;$i<6;$i++){
-            $re=DB::select("select id,duration,screenshot,name from video join (select rand()*(select max(id) from video) as T) as t2 where id > t2.T order by id asc limit 1");
-            $re[0]->id=md5($re[0]->id);
-            $re[0]->screenshot=md5($re[0]->screenshot);
+            $re=DB::select("select id,duration,name from video join (select rand()*(select max(id) from video) as T) as t2 where id > t2.T order by id asc limit 1");
             $play_list[]=$re[0];
         }
         //push-list
         $push_list=[];
         for($i=0;$i<6;$i++){
-            $re=DB::select("select id,poster,name from video join (select rand()*(select max(id) from video) as T) as t2 where id > t2.T order by id asc limit 1");
-            $re[0]->id=md5($re[0]->id);
-            $re[0]->poster=md5($re[0]->poster);
+            $re=DB::select("select id,name from video join (select rand()*(select max(id) from video) as T) as t2 where id > t2.T order by id asc limit 1");
             $push_list[]=$re[0];
         }
 
         return response()->view("play-html5", [
             "video" => $result1[0],
             "comment" => $result2,
+            "cm_page"=>$cm_page,
+            "cm_count"=>$result21[0]->count,
             "video_token" => $video_token,
             "play_list" => $play_list,
             "push_list" => $push_list
         ]);
     }
 
-    public function getVideo(Request $request){
+    public function getMp4(Request $request){
         //比较client_token与server_token是否一致
         $client_token=$request->input("token");
         $server_token=session("video_token",Random::getRandString(20));
@@ -66,10 +61,10 @@ class PlayController extends Controller
             $request->session()->forget('video_token');
             //apache mod_auth_token
             $secret = "lindakai";
-            $protectedPath = "/mv/";
+            $protectedPath = "/data/video/mp4/";
             $ipLimitation = true;
             $hexTime = dechex(time());
-            $fileName = "/".Encode::decode($request->input("file"));
+            $fileName = "/".$request->input("id").".mp4";
             if ($ipLimitation) {
                 $token = md5($secret.$fileName.$hexTime.$_SERVER["REMOTE_ADDR"]);
             } else {
@@ -78,21 +73,7 @@ class PlayController extends Controller
             $url = $protectedPath.$token."/".$hexTime.$fileName;
             return redirect($url);
         }
-        return "404 Not Found";
-    }
-
-    public function getPoster(Request $request){
-        $id = $request->input("id",md5(1));
-        //poster
-        $result = DB::select("select * from video_poster where md5(id)=?", [$id]);
-        return response($result[0]->data)->header("Content-Type", $result[0]->mime);
-    }
-
-    public function getScreenShot(Request $request){
-        $id = $request->input("id",md5(1));
-        //screenshot
-        $result = DB::select("select * from video_screenshot where md5(id)=?", [$id]);
-        return response($result[0]->data)->header("Content-Type", $result[0]->mime);
+        return view("errors/404");
     }
 
 }

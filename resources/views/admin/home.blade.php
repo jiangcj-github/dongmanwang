@@ -1,5 +1,5 @@
 @extends("nav")
-@section("title","动画电影网")
+@section("title","管理中心")
 @section("css")
     @parent
     <style>
@@ -28,6 +28,9 @@
 @append
 @section("main")
     <div class="content">
+        <div class="section">
+            <div class="section-header">管理中心</div>
+        </div>
         <div class="section">
             <div class="section-header">上传视频</div>
             <div class="section-content">
@@ -82,7 +85,7 @@
                         </div>
                     </div>
                     <p class="help-block">
-                        支持png或jpg格式
+                        必须为png格式
                     </p>
                 </div>
                 <div class="form-group">
@@ -95,20 +98,26 @@
                         </div>
                     </div>
                     <p class="help-block">
-                        只支持mp4格式
+                        必须为mp4格式
                     </p>
                 </div>
-                <div class="alert alert-warning" id="upload_error" style="display:none;"></div>
+                <div class="alert alert-warning" id="upload_error" style="display:none;">
+                    <a href="javascript:void(0);" onclick="$(this).parent().hide();" class="close">&times;</a>
+                    <span></span>
+                </div>
                 <button type="submit" class="btn btn-primary">提交</button>
             </div>
         </div>
         <div class="section" id="cat">
             <div class="section-header">视频分类</div>
             <div class="section-content">
-                <div class="alert alert-warning" id="cat_info" style="display:none;"></div>
+                <div class="alert alert-warning" id="cat_error" style="display:none;">
+                    <a href="javascript:void(0);" onclick="$(this).parent().hide();" class="close">&times;</a>
+                    <span></span>
+                </div>
                 <div class="table-header">
-                    <button class="btn btn-warning btn-xs" id="scat_sel">全选</button>
-                    <button class="btn btn-warning btn-xs" id="scat_usel">取消</button>
+                    <button class="btn btn-warning btn-xs" id="cat_btn_sel">全选</button>
+                    <button class="btn btn-warning btn-xs" id="cat_btn_usel">取消</button>
                     <button class="btn btn-warning btn-xs" onclick="deleteCats()">删除</button>
                 </div>
                 <table class="table table-hover table-bordered">
@@ -124,38 +133,44 @@
                                    <button class="btn btn-default btn-xs" style="display:none;" onclick="cancelRenameCat(this);">取消</button>
                                    <button class="btn btn-default btn-xs" onclick="startRenameCat(this);">重命名</button>
                                    <button class="btn btn-default btn-xs" onclick="deleteCat('{!! $value->id !!}');">删除</button>
-                                   <button class="btn btn-default btn-xs" onclick="showCat('{!! $value->id !!}');">详细</button>
+                                   <button class="btn btn-default btn-xs" onclick="location.href='/admin/videoManage?srch_cat={!! $value->id !!}'">详细</button>
                                </td>
                            </tr>
                         @endforeach
                         <tr id="ncat" style="display:none;">
                             <td></td>
                             <td></td>
-                            <td contenteditable id="ncatv_name"></td>
+                            <td contenteditable id="cat_input_name"></td>
                             <td>
-                                <button class="btn btn-primary btn-xs" id="ncat_save">保存</button>
-                                <button class="btn btn-default btn-xs" data-target="ncat" id="ncat_cancel">取消</button>
+                                <button class="btn btn-primary btn-xs" id="cat_btn_save">保存</button>
+                                <button class="btn btn-default btn-xs" data-target="ncat" id="cat_btn_cancel">取消</button>
                             </td>
                         </tr>
                    </tbody>
                </table>
                 <div class="table-footer">
-                    <span id="scat_selnum" style="float:left">选中0项</span>
-                    <span id="scat_selnum" style="float:left">共{!! count($categery) !!}项</span>
-                    <span>第{!! floor($cat_offset/$cat_limit)+1 !!}页</span>
-                    <span>共{!! ceil($cat_count/$cat_limit) !!}页</span>
-                    @if(floor($cat_offset/$cat_limit)<=0)
+                    <span id="cat_span_sel" style="float:left">选中0项</span>
+                    <span style="float:left">共{!! count($categery) !!}项</span>
+                    <span>第{!! $cat_page !!}页</span>
+                    <span>共{!! ceil($cat_count/10) !!}页</span>
+                    @if($cat_page<=1)
                         <button class="btn btn-warning btn-xs" disabled>上一页</button>
                     @else
-                        <button class="btn btn-warning btn-xs" id="pcat_up">上一页</button>
+                        <button class="btn btn-warning btn-xs" onclick="location.href='/admin/home?cat_page={!! $cat_page-1 !!}';">上一页</button>
                     @endif
-                    @if(floor($cat_offset/$cat_limit)+1>=ceil($cat_count/$cat_limit))
+                    @if($cat_page>=ceil($cat_count/10))
                         <button class="btn btn-warning btn-xs" disabled>下一页</button>
                     @else
-                        <button class="btn btn-warning btn-xs" id="pcat_down">下一页</button>
+                        <button class="btn btn-warning btn-xs" onclick="location.href='/admin/home?cat_page={!! $cat_page+1 !!}';">下一页</button>
                     @endif
                 </div>
-                <button class="btn btn-primary" data-target="ncat" id="ncat_btn">添加</button>
+                <button class="btn btn-primary" data-target="ncat" id="cat_btn_add">添加</button>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-header">视频管理</div>
+            <div class="section-content">
+                <button class="btn btn-primary" onclick="location.href='/admin/videoManage'">管理</button>
             </div>
         </div>
     </div>
@@ -191,7 +206,7 @@
                 },
                 error:function(){
                     $("#upload_error").show();
-                    $("#upload_error").text("文件"+$("#poster")[0].files[0].name+"上传失败");
+                    $("#upload_error").children("span").text("文件"+$("#poster")[0].files[0].name+"上传失败");
                 }
             });
         });
@@ -223,28 +238,28 @@
                 },
                 error:function(){
                     $("#upload_error").show();
-                    $("#upload_error").text("文件"+$("#video")[0].files[0].name+"上传失败");
+                    $("#upload_error").children("span").text("文件"+$("#video")[0].files[0].name+"上传失败");
                 }
             });
         });
 
         //categery
-        $("#ncat_btn").click(function(){
+        $("#cat_btn_add").click(function(){
             $("#"+$(this).data("target")).show();
         });
-        $("#ncat_cancel").click(function(){
+        $("#cat_btn_cancel").click(function(){
             $("#"+$(this).data("target")).hide();
         });
         //save
-        $("#ncat_save").click(function(){
-           var name=$("#ncatv_name").text();
+        $("#cat_btn_save").click(function(){
+           var name=$("#cat_input_name").text();
            var _token="{!! csrf_token() !!}";
            $.post("/admin/home/addCategery",{name:name,_token:_token},function(data){
                 if(!data.msg){
                     location.reload();
                 }else{
-                    $("#cat_info").show();
-                    $("#cat_info").text(data.msg);
+                    $("#cat_error").show();
+                    $("#cat_error").children("span").text(data.msg);
                 }
            });
         });
@@ -268,8 +283,8 @@
                 if(!data.msg){
                     location.reload();
                 } else{
-                    $("#cat_info").show();
-                    $("#cat_info").text(data.msg);
+                    $("#cat_error").show();
+                    $("#cat_error").children("span").text(data.msg);
                 }
             });
         }
@@ -280,8 +295,8 @@
                if(!data.msg){
                    location.reload();
                } else{
-                   $("#cat_info").show();
-                   $("#cat_info").text(data.msg);
+                   $("#cat_error").show();
+                   $("#cat_error").children("span").text(data.msg);
                }
             });
         }
@@ -295,33 +310,22 @@
                 if(!data.msg){
                     location.reload();
                 } else{
-                    $("#cat_info").show();
-                    $("#cat_info").text(data.msg);
+                    $("#cat_error").show();
+                    $("#cat_error").children("span").text(data.msg);
                 }
             });
         }
         //sel
-        $("#scat_sel").click(function(){
+        $("#cat_btn_sel").click(function(){
             $("#cat table").find("input[type=checkbox]").prop("checked",true);
-            $("#scat_selnum").text("选中"+$("#cat table tr input[type=checkbox]:checked").length+"项");
+            $("#cat_span_sel").text("选中"+$("#cat table tr input[type=checkbox]:checked").length+"项");
         });
-        $("#scat_usel").click(function(){
+        $("#cat_btn_usel").click(function(){
             $("#cat table").find("input[type=checkbox]").prop("checked",false);
-            $("#scat_selnum").text("选中"+$("#cat table tr input[type=checkbox]:checked").length+"项");
+            $("#cat_span_sel").text("选中"+$("#cat table tr input[type=checkbox]:checked").length+"项");
         });
         $("#cat table tr input[type=checkbox]").change(function(){
-            $("#scat_selnum").text("选中"+$("#cat table tr input[type=checkbox]:checked").length+"项");
-        });
-        //show
-        function showCat(id){
-            open("/admin/videoList?cat_id="+id,"_blank");
-        }
-        //page
-        $("#pcat_up").click(function(){
-            location.href="/admin/home?cat_limit={!! $cat_limit !!}&cat_offset={!! $cat_offset-$cat_limit !!}";
-        });
-        $("#pcat_down").click(function(){
-            location.href="/admin/home?cat_limit={!! $cat_limit !!}&cat_offset={!! $cat_offset+$cat_limit !!}";
+            $("#cat_span_sel").text("选中"+$("#cat table tr input[type=checkbox]:checked").length+"项");
         });
     </script>
 @append
