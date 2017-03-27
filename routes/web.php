@@ -11,9 +11,7 @@
 |
 */
 
-Route::get("/",function(){
-   return response()->view("main");
-});
+Route::get("/","AdminController@test");
 
 Route::get("/m1",function(){
    return response()->view("content/m1");
@@ -43,5 +41,7 @@ Route::group(["middleware"=>"admin"],function(){
     Route::post("/admin/videoManage/deleteV","AdminController@deleteV");
     Route::post("/admin/videoManage/deleteVs","AdminController@deleteVs");
 });
+
+
 
 

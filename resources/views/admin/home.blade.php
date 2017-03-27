@@ -20,7 +20,7 @@
         .poster{width:150px;}
         .poster img{width:150px;height:200px;border:1px solid gray;}
         .poster img:hover{cursor:pointer;border:1px solid darkgray;}
-        .progress{height:5px;background: #cfcfcf;border-radius: 0;}
+        .progress{height:5px;background: #cfcfcf;border-radius:0;margin-bottom:0;}
         .video{width:240px;}
         .video img{width:240px;height:140px;border:1px solid gray;}
         .video img:hover{cursor:pointer;border:1px solid darkgray;}
@@ -79,7 +79,7 @@
                     <label>Poster</label>
                     <div class="poster">
                         <img src="/img/upload1.png" onclick="$('#poster').click();">
-                        <input type="file" id="poster" name="poster" style="display: none;"/>
+                        <input type="file" id="poster" style="display: none;"/>
                         <div class="progress">
                             <div class="progress-bar" style="width:0;"></div>
                         </div>
@@ -92,7 +92,7 @@
                     <label>视频文件</label>
                     <div class="video">
                         <img src="/img/upload2.png" onclick="$('#video').click();">
-                        <input type="file" id="video" name="video" style="display: none;"/>
+                        <input type="file" id="video" style="display: none;"/>
                         <div class="progress">
                             <div class="progress-bar" style="width:0;"></div>
                         </div>
@@ -202,7 +202,12 @@
                     return myXhr;
                 },
                 success: function(data){
-                    $(".poster img").prop("src",data.url);
+                    if(data.msg){
+                        $("#upload_error").show();
+                        $("#upload_error").children("span").text("文件"+$("#poster")[0].files[0].name+"上传失败，"+data.msg);
+                    }else{
+                        $(".poster img").prop("src",data.url);
+                    }
                 },
                 error:function(){
                     $("#upload_error").show();
@@ -234,7 +239,12 @@
                     return myXhr;
                 },
                 success: function(data){
-                    $(".video img").prop("src",data.url);
+                    if(data.msg){
+                        $("#upload_error").show();
+                        $("#upload_error").children("span").text("文件"+$("#poster")[0].files[0].name+"上传失败，"+data.msg);
+                    }else{
+                        $(".video img").prop("src",data.url);
+                    }
                 },
                 error:function(){
                     $("#upload_error").show();

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Util\FfmpegUtil;
 use App\Util\Random;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -29,6 +31,7 @@ class AdminController extends Controller
         $cat_page=$request->input("cat_page",1);
         $result1=DB::select("select * from video_categery limit ? offset ?",[10,($cat_page-1)*10]);
         $result11=DB::select("select count(id) as count from video_categery");
+        //
         return view("admin/home",[
             "categery"=>$result1,
             "cat_page"=>$cat_page,
@@ -88,16 +91,50 @@ class AdminController extends Controller
         return response()->json();
     }
 
-    public function uploadPoster(Request $resquest){
-
-        return response()->json(["url"=>"/img/1.jpg"]);
+    public function uploadPoster(Request $request){
+        $file = $request->file("file");
+        if ($file==null||!$file->isValid()){
+            return response()->json(["msg"=>"invalid"]);
+        }else if($file->extension()!="png"){
+            return response()->json(["msg"=>"Error Format [".$file->extension()."]"]);
+        }
+        //当前目录public
+        $newPath="./data/video/poster/";
+        $result1=DB::select("select table_seq from seq where table_name=?",["video"]);
+        $newFile=$result1[0]->table_seq.".png";
+        $newFilePath=$newPath.$newFile;
+        if(file_exists($newFilePath)){
+            unlink($newFilePath);
+        }
+        $file->move($newPath,$newFile);
+        return response()->json(["url"=>"/".$newFilePath]);
     }
 
-    public function uploadVideo(Request $resquest){
-
-        return response()->json(["url"=>"/img/m_guochan.jpg"]);
+    public function uploadVideo(Request $request){
+        $file = $request->file("file");
+        if ($file==null||!$file->isValid()){
+            return response()->json(["msg"=>"invalid"]);
+        }else if($file->extension()!="mp4"){
+            return response()->json(["msg"=>"Error Format [".$file->extension()."]"]);
+        }
+        //当前目录public
+        $newPath="./data/video/mp4/";
+        $result1=DB::select("select table_seq from seq where table_name=?",["video"]);
+        $newFile=$result1[0]->table_seq.".mp4";
+        $newFilePath=$newPath.$newFile;
+        if(file_exists($newFilePath)){
+            unlink($newFilePath);
+        }
+        $file->move($newPath,$newFile);
+        //
+        $frame_path="./data/video/frame/".$result1[0]->table_seq.".jpg";
+        FfmpegUtil::video_frame("ffmpeg",$newFilePath,$frame_path);
+        return response()->json(["url"=>"/".$frame_path]);
     }
 
+    public function addVideo(Request $request){
+
+    }
     //------------------------------------------------------------------------------------------------------------------
     public function getVideoManage(Request $request){
 
@@ -134,6 +171,14 @@ class AdminController extends Controller
         return response()->json(["msg"=>"ok"]);
     }
 
+    public function test(Request $request){
+        $re=FfmpegUtil::video_info("ffmpeg.exe","data/video/mp4/1.mp4");
+        FfmpegUtil::video_frame("ffmpeg.exe","data/video/mp4/1.mp4","data/video/frame/1.jpg");
+        echo substr($re["duration"],0,strpos($re["duration"],"."));
+    }
+
 
 }
+
+
 
