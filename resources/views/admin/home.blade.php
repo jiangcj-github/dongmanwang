@@ -35,42 +35,49 @@
             <div class="section-header">上传视频</div>
             <div class="section-content">
                 <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name"/>
+                    <label>Name</label>
+                    <input type="text" class="form-control" id="v_input_name"/>
                 </div>
                 <div class="form-group">
-                    <label for="name">First Show</label>
+                    <label>First Show</label>
                     <div class="ymd-group">
-                        <select class="ymd">
+                        <select class="ymd" id="v_input_firstshow_y">
                             @foreach(range(1970,2030) as $value)
                                 <option value="{!! $value !!}">{!! $value !!}年</option>
                             @endforeach
                         </select>
-                        <select class=" ymd">
+                        <select class="ymd" id="v_input_firstshow_m">
                             @foreach(range(1,12) as $value)
-                                <option value="{!! $value !!}">{!! $value !!}月</option>
+                                @if($value<10)
+                                    <option value="0{!! $value !!}">0{!! $value !!}月</option>
+                                @else
+                                    <option value="{!! $value !!}">{!! $value !!}月</option>
+                                @endif
                             @endforeach
                         </select>
-                        <select class=" ymd">
+                        <select class="ymd" id="v_input_firstshow_d">
                             @foreach(range(1,31) as $value)
-                                <option value="{!! $value !!}">{!! $value !!}日</option>
+                                @if($value<10)
+                                    <option value="0{!! $value !!}">0{!! $value !!}日</option>
+                                @else
+                                    <option value="{!! $value !!}">{!! $value !!}日</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="name">Nation</label>
-                    <input type="text" class="form-control" id="name" name="nation"/>
+                    <label>Nation</label>
+                    <input type="text" class="form-control" id="v_input_nation"/>
                 </div>
                 <div class="form-group">
-                    <label for="name">Author</label>
-                    <input type="text" class="form-control" id="name" name="author"/>
+                    <label>Author</label>
+                    <input type="text" class="form-control" id="v_input_author"/>
                 </div>
                 <div class="form-group">
-                    <label for="name">Categery</label>
-                    <select class="form-control">
-                        <option value="0">无</option>
-                        @foreach($categery as $key=>$value)
+                    <label>Categery</label>
+                    <select class="form-control" id="v_input_categery">
+                        @foreach($categerys as $key=>$value)
                             <option value="{!! $value->id !!}">{!! $value->name !!}</option>
                         @endforeach
                     </select>
@@ -105,7 +112,7 @@
                     <a href="javascript:void(0);" onclick="$(this).parent().hide();" class="close">&times;</a>
                     <span></span>
                 </div>
-                <button type="submit" class="btn btn-primary">提交</button>
+                <button class="btn btn-primary" id="v_btn_submit">提交</button>
             </div>
         </div>
         <div class="section" id="cat">
@@ -129,11 +136,13 @@
                                <td>{!! $value->id !!}</td>
                                <td>{!! $value->name !!}</td>
                                <td>
-                                   <button class="btn btn-primary btn-xs" style="display:none;" onclick="renameCat('{!! $value->id !!}',this);">保存</button>
-                                   <button class="btn btn-default btn-xs" style="display:none;" onclick="cancelRenameCat(this);">取消</button>
-                                   <button class="btn btn-default btn-xs" onclick="startRenameCat(this);">重命名</button>
-                                   <button class="btn btn-default btn-xs" onclick="deleteCat('{!! $value->id !!}');">删除</button>
-                                   <button class="btn btn-default btn-xs" onclick="location.href='/admin/videoManage?srch_cat={!! $value->id !!}'">详细</button>
+                                   @if($value->id!=0)
+                                       <button class="btn btn-primary btn-xs" style="display:none;" onclick="renameCat('{!! $value->id !!}',this);">保存</button>
+                                       <button class="btn btn-default btn-xs" style="display:none;" onclick="cancelRenameCat(this);">取消</button>
+                                       <button class="btn btn-default btn-xs" onclick="startRenameCat(this);">重命名</button>
+                                       <button class="btn btn-default btn-xs" onclick="deleteCat('{!! $value->id !!}');">删除</button>
+                                       <button class="btn btn-default btn-xs" onclick="location.href='/admin/video?srch_cat={!! $value->id !!}'">详细</button>
+                                   @endif
                                </td>
                            </tr>
                         @endforeach
@@ -170,7 +179,7 @@
         <div class="section">
             <div class="section-header">视频管理</div>
             <div class="section-content">
-                <button class="btn btn-primary" onclick="location.href='/admin/videoManage'">管理</button>
+                <button class="btn btn-primary" onclick="location.href='/admin/video'">管理</button>
             </div>
         </div>
     </div>
@@ -179,6 +188,8 @@
     @parent
     <script>
         //upload
+        var posterUploaded=false;
+        var videoUploaded=false;
         $("#poster").change(function(){
             var formData = new FormData();
             formData.append("file", $("#poster")[0].files[0]);
@@ -205,13 +216,16 @@
                     if(data.msg){
                         $("#upload_error").show();
                         $("#upload_error").children("span").text("文件"+$("#poster")[0].files[0].name+"上传失败，"+data.msg);
+                        posterUploaded=false;
                     }else{
                         $(".poster img").prop("src",data.url);
+                        posterUploaded=true;
                     }
                 },
                 error:function(){
                     $("#upload_error").show();
                     $("#upload_error").children("span").text("文件"+$("#poster")[0].files[0].name+"上传失败");
+                    posterUploaded=false;
                 }
             });
         });
@@ -241,16 +255,57 @@
                 success: function(data){
                     if(data.msg){
                         $("#upload_error").show();
-                        $("#upload_error").children("span").text("文件"+$("#poster")[0].files[0].name+"上传失败，"+data.msg);
+                        $("#upload_error").children("span").text("文件"+$("#video")[0].files[0].name+"上传失败，"+data.msg);
+                        videoUploaded=false;
                     }else{
                         $(".video img").prop("src",data.url);
+                        videoUploaded=true;
                     }
                 },
                 error:function(){
                     $("#upload_error").show();
                     $("#upload_error").children("span").text("文件"+$("#video")[0].files[0].name+"上传失败");
+                    videoUploaded=false;
                 }
             });
+        });
+
+        $("#v_btn_submit").click(function(){
+           var name=$("#v_input_name").val();
+           if(name==null||name==""){
+               $("#upload_error").show();
+               $("#upload_error").children("span").text("name为空");
+               return;
+           }
+           var nation=$("#v_input_nation").val();
+           if(nation==null||nation==""){
+               $("#upload_error").show();
+               $("#upload_error").children("span").text("nation为空");
+               return;
+           }
+           var author=$("#v_input_author").val();
+            if(author==null||author==""){
+                $("#upload_error").show();
+                $("#upload_error").children("span").text("author为空");
+                return;
+            }
+           var categery=$("#v_input_categery").val();
+           var firstshow=$("#v_input_firstshow_y").val()+"-"+$("#v_input_firstshow_m").val()+"-"+$("#v_input_firstshow_d").val();
+           var _token="{!! csrf_token() !!}";
+           if(!videoUploaded&&!posterUploaded){
+               $("#upload_error").show();
+               $("#upload_error").children("span").text("Poster或Video未上传");
+               return;
+           }
+           $.post("/admin/home/addVideo",{name:name,nation:nation,author:author,categery:categery,firstshow:firstshow,_token:_token},function(data){
+               console.log(data);
+                if(data.msg){
+                    $("#upload_error").show();
+                    $("#upload_error").children("span").text("提交失败，错误: "+data.msg);
+                }else{
+                    location.reload();
+                }
+           });
         });
 
         //categery

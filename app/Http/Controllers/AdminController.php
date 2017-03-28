@@ -31,9 +31,11 @@ class AdminController extends Controller
         $cat_page=$request->input("cat_page",1);
         $result1=DB::select("select * from video_categery limit ? offset ?",[10,($cat_page-1)*10]);
         $result11=DB::select("select count(id) as count from video_categery");
+        $result2=DB::select("select * from video_categery");
         //
         return view("admin/home",[
             "categery"=>$result1,
+            "categerys"=>$result2,
             "cat_page"=>$cat_page,
             "cat_count"=>$result11[0]->count
         ]);
@@ -133,11 +135,28 @@ class AdminController extends Controller
     }
 
     public function addVideo(Request $request){
-
+        $name=$request->input("name");
+        $firstshow=$request->input("firstshow");
+        $nation=$request->input("nation");
+        $categery=$request->input("categery");
+        $author=$request->input("author");
+        if($name==null||$firstshow==null||$nation==null||$categery==null||$author==null){
+            return response()->json(["msg"=>"部分参数为空"]);
+        }
+        $result1=DB::select("select table_seq from seq where table_name=?",["video"]);
+        $videoFile="./data/video/mp4/".$result1[0]->table_seq.".mp4";
+        if(!file_exists($videoFile)||!file_exists("./data/video/poster/".$result1[0]->table_seq.".png")){
+            return response()->json(["msg"=>"Poster或Video未上传"]);
+        }
+        $info=FfmpegUtil::video_info("ffmpeg",$videoFile);
+        $duration=$info["duration"];
+        DB::insert("insert into video(id,name,duration,firstshow,nation,author,categery) values(?,?,?,?,?,?,?)",[$result1[0]->table_seq,$name,$duration,$firstshow,$nation,$author,$categery]);
+        DB::update("update seq set table_seq=? where table_name=?",[$result1[0]->table_seq+1,"video"]);
+        return;
     }
+
     //------------------------------------------------------------------------------------------------------------------
     public function getVideoManage(Request $request){
-
         //video
         $v_page=$request->input("v_page",1);
         $srch_cat=$request->input("srch_cat",-1);
@@ -152,7 +171,7 @@ class AdminController extends Controller
         //categery
         $result2=DB::select("select * from video_categery");
 
-        return view("admin/video-manage",[
+        return view("admin/video",[
             "video"=>$result1,
             "v_page"=>$v_page,
             "v_count"=>$result11[0]->count,
@@ -162,19 +181,52 @@ class AdminController extends Controller
     }
 
     public function deleteV(Request $request){
-
-        return response()->json(["msg"=>"ok"]);
+        $id=$request->input("id");
+        if($id==null){
+            return response()->json(["msg"=>"参数错误"]);
+        }
+        $posterFile="./data/video/poster/".$id.".png";
+        unlink($posterFile);
+        $videoFile="./data/video/mp4/".$id.".mp4";
+        unlink($videoFile);
+        $videoFrame="./data/video/frame/".$id.".jpg";
+        unlink($videoFrame);
+        DB::delete("delete from video where id=?",[$id]);
     }
 
     public function deleteVs(Request $request){
-
+        $id_str=$request->input("ids");
+        if($id_str==null){
+            return response()->json(["msg"=>"参数错误"]);
+        }
+        $ids=explode("-",$id_str);
+        foreach ($ids as $id){
+            $posterFile="./data/video/poster/".$id.".png";
+            unlink($posterFile);
+            $videoFile="./data/video/mp4/".$id.".mp4";
+            unlink($videoFile);
+            $videoFrame="./data/video/frame/".$id.".jpg";
+            unlink($videoFrame);
+            DB::delete("delete from video where id=?",[$id]);
+        }
         return response()->json(["msg"=>"ok"]);
     }
 
-    public function test(Request $request){
-        $re=FfmpegUtil::video_info("ffmpeg.exe","data/video/mp4/1.mp4");
-        FfmpegUtil::video_frame("ffmpeg.exe","data/video/mp4/1.mp4","data/video/frame/1.jpg");
-        echo substr($re["duration"],0,strpos($re["duration"],"."));
+    public function getVideoUpdate(Request $request){
+        $id=$request->input("id");
+        if($id==null){
+            return view("errors/404");
+        }
+        $result1=DB::select("select * from video where id=?",[$id]);
+        $video=$result1[0];
+        $ymd=explode("-",$video->firstshow);
+        $result2=DB::select("select * from video_categery");
+
+        return view("admin/video-update",[
+            "video"=>$result1[0],
+            "ymd"=>$ymd,
+            "categerys"=>$result2
+        ]);
     }
 
 
