@@ -25,9 +25,12 @@ Route::get("/play","PlayController@getPlay");
 Route::get("/play/video","PlayController@getMp4");
 
 Route::get("/main","MainController@getMain");
+Route::get("/categery","MainController@getCategery");
+Route::get("/search","MainController@getSearch");
 
 Route::get("/admin","AdminController@admin");
 Route::post("/admin/login","AdminController@login");
+
 Route::group(["middleware"=>"admin"],function(){
     Route::get("/admin/home","AdminController@getHome");
     Route::post("/admin/home/addCategery","AdminController@addCategery");
