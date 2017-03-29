@@ -1,0 +1,4 @@
+/*slider*/
+.slider{height:10px;background:#0064cd;cursor:pointer;position:relative;margin:10px 0;}
+.slider-btn{margin:-5px 0 0 -10px;width:20px;height:20px;border-radius:50%;background:#e6e6e6;position:absolute;border:1px solid #0064cd;}
+.slider-value{position: absolute;right:0;height:20px;width:40px;line-height: 20px;margin:-5px -50px 0 0;text-align: center;}

@@ -17,7 +17,12 @@
         .video{width:240px;}
         .video img{width:240px;height:140px;border:1px solid gray;}
         .video img:hover{cursor:pointer;border:1px solid darkgray;}
+        .slider{max-width:300px;}
     </style>
+@append
+@section("css_lib")
+    @parent
+    <link rel="stylesheet" href="/css/plugin.css">
 @append
 @section("main")
     <div class="content">
@@ -105,7 +110,7 @@
                         <img src="/data/video/poster/{!! $video->id !!}.png" onclick="$('#poster').click();">
                         <input type="file" id="poster" style="display: none;"/>
                         <div class="progress">
-                            <div class="progress-bar" style="width:0;"></div>
+                            <div class="progress-bar progress-bar-warning progress-bar-striped" style="width:0;"></div>
                         </div>
                     </div>
                     <p class="help-block">
@@ -118,12 +123,19 @@
                         <img src="/data/video/frame/{!! $video->id !!}.jpg" onclick="$('#video').click();">
                         <input type="file" id="video" style="display: none;"/>
                         <div class="progress">
-                            <div class="progress-bar" style="width:0;"></div>
+                            <div class="progress-bar progress-bar-warning progress-bar-striped" style="width:0;"></div>
                         </div>
                     </div>
                     <p class="help-block">
                         必须为mp4格式
                     </p>
+                </div>
+                <div class="form-group">
+                    <label>Frame</label>
+                    <div class="slider" id="v_slider_frame">
+                        <div class="slider-btn" style="left:20%;"></div>
+                        <span class="slider-value">20%</span>
+                    </div>
                 </div>
                 <div class="alert alert-warning" id="upload_error" style="display:none;">
                     <a href="javascript:void(0);" onclick="$(this).parent().hide();" class="close">&times;</a>
@@ -134,18 +146,21 @@
         </div>
     </div>
 @append
+@section("js_lib")
+    @parent
+    <script src="/js/plugin.js"></script>
+@append
 @section("js")
     @parent
     <script>
         //upload
-        var posterUploaded=false;
-        var videoUploaded=false;
         $("#poster").change(function(){
             var formData = new FormData();
+            formData.append("id","{!! $video->id !!}")
             formData.append("file", $("#poster")[0].files[0]);
             formData.append("_token","{!! csrf_token() !!}");
             $.ajax({
-                url: "/admin/home/uploadPoster",
+                url: "/admin/video/update/uploadPoster",
                 type: "POST",
                 data: formData,
                 contentType:false,
@@ -166,26 +181,24 @@
                     if(data.msg){
                         $("#upload_error").show();
                         $("#upload_error").children("span").text("文件"+$("#poster")[0].files[0].name+"上传失败，"+data.msg);
-                        posterUploaded=false;
                     }else{
                         $(".poster img").prop("src",data.url);
-                        posterUploaded=true;
                     }
                 },
                 error:function(){
                     $("#upload_error").show();
                     $("#upload_error").children("span").text("文件"+$("#poster")[0].files[0].name+"上传失败");
-                    posterUploaded=false;
                 }
             });
         });
 
         $("#video").change(function(){
             var formData = new FormData();
+            formData.append("id","{!! $video->id !!}")
             formData.append("file", $("#video")[0].files[0]);
             formData.append("_token","{!! csrf_token() !!}");
             $.ajax({
-                url: "/admin/home/uploadVideo",
+                url: "/admin/video/update/uploadVideo",
                 type: "POST",
                 data: formData,
                 contentType:false,
@@ -242,13 +255,8 @@
             var categery=$("#v_input_categery").val();
             var firstshow=$("#v_input_firstshow_y").val()+"-"+$("#v_input_firstshow_m").val()+"-"+$("#v_input_firstshow_d").val();
             var _token="{!! csrf_token() !!}";
-            if(!videoUploaded&&!posterUploaded){
-                $("#upload_error").show();
-                $("#upload_error").children("span").text("Poster或Video未上传");
-                return;
-            }
-            $.post("/admin/home/addVideo",{name:name,nation:nation,author:author,categery:categery,firstshow:firstshow,_token:_token},function(data){
-                console.log(data);
+            var id=parseInt("{!! $video->id !!}");
+            $.post("/admin/video/update/updateVideo",{id:id,name:name,nation:nation,author:author,categery:categery,firstshow:firstshow,_token:_token},function(data){
                 if(data.msg){
                     $("#upload_error").show();
                     $("#upload_error").children("span").text("提交失败，错误: "+data.msg);
@@ -258,6 +266,12 @@
             });
         });
 
-
+        $("#v_slider_frame").sliderClick(function(per){
+            $.get("/admin/video/update/updateVideoFrame?id={!! $video->id !!}&per="+per,function(data){
+                if(!data.msg){
+                    $(".video img").prop("src",data.url+"?"+Math.random());
+                }
+            });
+        });
     </script>
 @append

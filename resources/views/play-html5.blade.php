@@ -8,7 +8,7 @@
     <div class="content">
         <div class="playSec">
             <div class="play-left">
-                <svg class="vpost" viewBox="0,0,100,100" style="background: url(/data/video/screenshot/{!! $video->id !!}.png);">
+                <svg class="vpost" viewBox="0,0,100,100" style="background: url(/data/video/frame/{!! $video->id !!}.jpg);">
                     <g class="vpost-btn">
                         <circle r="7" cx="50" cy="50" stroke="white" fill="transparent"></circle>
                         <polygon points="48,53 48,47 53,50" fill="white"/>
@@ -54,7 +54,7 @@
                     </div>
                     @foreach($play_list as $key=>$value)
                         <div class="plist-item" data-video="{!! $value->id !!}">
-                            <img src="/data/video/screenshot/{!! $value->id !!}.png">
+                            <img src="/data/video/frame/{!! $value->id !!}.jpg">
                             <span class="pitem-label">{!! $value->duration !!}</span>
                             <div class="pitem-info">{!! $value->name !!}</div>
                         </div>

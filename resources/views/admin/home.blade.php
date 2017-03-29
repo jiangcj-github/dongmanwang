@@ -88,7 +88,7 @@
                         <img src="/img/upload1.png" onclick="$('#poster').click();">
                         <input type="file" id="poster" style="display: none;"/>
                         <div class="progress">
-                            <div class="progress-bar" style="width:0;"></div>
+                            <div class="progress-bar progress-bar-warning progress-bar-striped" style="width:0;"></div>
                         </div>
                     </div>
                     <p class="help-block">
@@ -101,7 +101,7 @@
                         <img src="/img/upload2.png" onclick="$('#video').click();">
                         <input type="file" id="video" style="display: none;"/>
                         <div class="progress">
-                            <div class="progress-bar" style="width:0;"></div>
+                            <div class="progress-bar progress-bar-warning progress-bar-striped" style="width:0;"></div>
                         </div>
                     </div>
                     <p class="help-block">
@@ -298,7 +298,6 @@
                return;
            }
            $.post("/admin/home/addVideo",{name:name,nation:nation,author:author,categery:categery,firstshow:firstshow,_token:_token},function(data){
-               console.log(data);
                 if(data.msg){
                     $("#upload_error").show();
                     $("#upload_error").children("span").text("提交失败，错误: "+data.msg);

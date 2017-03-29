@@ -19,7 +19,7 @@
     <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <nav class="topBar">
         <div class="topBar-item align-center">
-            <img src="/img/logo.svg" class="logo">
+            <img src="/img/logo.svg" class="logo" onclick="location.href='/main'">
             <span class="logo-text">动画电影网</span>
         </div>
         <div class="topBar-item right align-center">

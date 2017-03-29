@@ -52,4 +52,11 @@ class FfmpegUtil
         $ss=floor($res["seconds"]/2);
         exec(sprintf($ffmpeg.' -i "%s" -f image2 -ss '.$ss.' -y "%s"',$file,$outfile));
     }
+
+    public static function video_frame_by_per($ffmpeg,$file,$outfile,$per){
+        $res=self::video_info($ffmpeg,$file);
+        $ss=floor($res["seconds"]/2);
+        $ss=$ss*($per/100);
+        exec(sprintf($ffmpeg.' -i "%s" -f image2 -ss '.$ss.' -s 640*480 -y "%s"',$file,$outfile));
+    }
 }

@@ -111,7 +111,7 @@
         //delete
         function deleteV(id){
             var _token="{!! csrf_token() !!}";
-            $.post("/admin/videoManage/deleteV",{id:id,_token:_token},function(data){
+            $.post("/admin/video/deleteV",{id:id,_token:_token},function(data){
                 if(!data.msg){
                     location.reload();
                 } else{
@@ -126,7 +126,7 @@
                 ids.push($(e).val());
             });
             var _token="{!! csrf_token() !!}";
-            $.post("/admin/videoManage/deleteVs",{ids:ids.join("-"),_token:_token},function(data){
+            $.post("/admin/video/deleteVs",{ids:ids.join("-"),_token:_token},function(data){
                 if(!data.msg){
                     location.reload();
                 } else{
@@ -150,7 +150,7 @@
         //
         function filterVs(){
             var srch_cat=$("#srch_cat").val();
-            location.href="/admin/videoManage?srch_cat="+srch_cat;
+            location.href="/admin/video?srch_cat="+srch_cat;
         }
     </script>
 @append

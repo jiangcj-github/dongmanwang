@@ -109,7 +109,7 @@ class AdminController extends Controller
             unlink($newFilePath);
         }
         $file->move($newPath,$newFile);
-        return response()->json(["url"=>"/".$newFilePath]);
+        return response()->json(["url"=>"/data/video/poster/".$result1[0]->table_seq.".png"]);
     }
 
     public function uploadVideo(Request $request){
@@ -131,7 +131,7 @@ class AdminController extends Controller
         //
         $frame_path="./data/video/frame/".$result1[0]->table_seq.".jpg";
         FfmpegUtil::video_frame("ffmpeg",$newFilePath,$frame_path);
-        return response()->json(["url"=>"/".$frame_path]);
+        return response()->json(["url"=>"/data/video/mp4/".$result1[0]->table_seq.".jpg"]);
     }
 
     public function addVideo(Request $request){
@@ -152,7 +152,6 @@ class AdminController extends Controller
         $duration=$info["duration"];
         DB::insert("insert into video(id,name,duration,firstshow,nation,author,categery) values(?,?,?,?,?,?,?)",[$result1[0]->table_seq,$name,$duration,$firstshow,$nation,$author,$categery]);
         DB::update("update seq set table_seq=? where table_name=?",[$result1[0]->table_seq+1,"video"]);
-        return;
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -227,6 +226,75 @@ class AdminController extends Controller
             "ymd"=>$ymd,
             "categerys"=>$result2
         ]);
+    }
+
+    public function uploadPoster2(Request $request){
+        $id=$request->input("id");
+        $file = $request->file("file");
+        if ($file==null||!$file->isValid()){
+            return response()->json(["msg"=>"upload invalid"]);
+        }else if($file->extension()!="png"){
+            return response()->json(["msg"=>"Error Format [".$file->extension()."]"]);
+        }
+        //当前目录public
+        $newPath="./data/video/poster/";
+        $newFile=$id.".png";
+        $newFilePath=$newPath.$newFile;
+        if(file_exists($newFilePath)){
+            unlink($newFilePath);
+        }
+        $file->move($newPath,$newFile);
+        return response()->json(["url"=>"/data/video/poster/".$id.".png"]);
+    }
+
+    public function uploadVideo2(Request $request){
+        $id=$request->input("id");
+        $file = $request->file("file");
+        if ($file==null||!$file->isValid()){
+            return response()->json(["msg"=>"invalid"]);
+        }else if($file->extension()!="mp4"){
+            return response()->json(["msg"=>"Error Format [".$file->extension()."]"]);
+        }
+        //当前目录public
+        $newPath="./data/video/mp4/";
+        $newFile=$id.".mp4";
+        $newFilePath=$newPath.$newFile;
+        if(file_exists($newFilePath)){
+            unlink($newFilePath);
+        }
+        $file->move($newPath,$newFile);
+        //
+        $frame_path="./data/video/frame/".$id.".jpg";
+        FfmpegUtil::video_frame("ffmpeg",$newFilePath,$frame_path);
+        return response()->json(["url"=>"/data/video/frame/".$id.".mp4"]);
+    }
+
+    public function updateVideo(Request $request){
+        $id=$request->input("id",4);
+        $name=$request->input("name");
+        $firstshow=$request->input("firstshow");
+        $nation=$request->input("nation");
+        $categery=$request->input("categery");
+        $author=$request->input("author");
+        if($name==null||$firstshow==null||$nation==null||$categery==null||$author==null){
+            return response()->json(["msg"=>"部分参数为空"]);
+        }
+        $videoFile="./data/video/mp4/".$id.".mp4";
+        if(!file_exists($videoFile)||!file_exists("./data/video/poster/".$id.".png")){
+            return response()->json(["msg"=>"Poster或Video未上传"]);
+        }
+        $info=FfmpegUtil::video_info("ffmpeg",$videoFile);
+        $duration=$info["duration"];
+        DB::update("update video set name=?,duration=?,firstshow=?,nation=?,author=?,categery=? where id=?",[$name,$duration,$firstshow,$nation,$author,$categery,$id]);
+    }
+
+    public function updateVideoFrame(Request $request){
+        $id=$request->input("id");
+        $per=$request->input("per");
+        $video_path="./data/video/mp4/".$id.".mp4";
+        $frame_path="./data/video/frame/".$id.".jpg";
+        FfmpegUtil::video_frame_by_per("ffmpeg",$video_path,$frame_path,$per);
+        return response()->json(["url"=>"/data/video/frame/".$id.".jpg"]);
     }
 
 

@@ -42,6 +42,11 @@ Route::group(["middleware"=>"admin"],function(){
     Route::post("/admin/video/deleteV","AdminController@deleteV");
     Route::post("/admin/video/deleteVs","AdminController@deleteVs");
     Route::get("/admin/video/update","AdminController@getVideoUpdate");
+    Route::post("/admin/video/update/uploadPoster","AdminController@uploadPoster2");
+    Route::post("/admin/video/update/uploadVideo","AdminController@uploadVideo2");
+    Route::post("/admin/video/update/updateVideo","AdminController@updateVideo");
+    Route::get("/admin/video/update/updateVideo","AdminController@updateVideo");
+    Route::get("/admin/video/update/updateVideoFrame","AdminController@updateVideoFrame");
 });
 
 

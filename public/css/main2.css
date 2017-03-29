@@ -5,6 +5,6 @@
 .section-header{font-size:1.2em;line-height:2.4;padding:0 15px;border-bottom:1px solid #cfcfcf;font-weight:bold;}
 .srow{display:flex;margin:20px 0;padding:0 20px;}
 .scell{width:20%;padding:0 10px;}
-.scell-img{width:100%;height:0px;padding-bottom:133%;background-size:100% 100% !important;}
+.scell-img{width:100%;height:0px;padding-bottom:133%;background-size:100% 100% !important;border:1px solid #cfcfcf;}
 .scell-img:hover{opacity:0.8;cursor:pointer;}
 .scell-info{text-align:center;word-wrap:break-word;height:20px;line-height:20px;overflow:hidden;}
