@@ -19,11 +19,11 @@
         .video img:hover{cursor:pointer;border:1px solid darkgray;}
         .slider{max-width:300px;}
     </style>
-@append
+@stop
 @section("css_lib")
     @parent
     <link rel="stylesheet" href="/css/plugin.css">
-@append
+@stop
 @section("main")
     <div class="content">
         <div class="section">
@@ -145,11 +145,11 @@
             </div>
         </div>
     </div>
-@append
+@stop
 @section("js_lib")
     @parent
     <script src="/js/plugin.js"></script>
-@append
+@stop
 @section("js")
     @parent
     <script>
@@ -274,4 +274,4 @@
             });
         });
     </script>
-@append
+@stop

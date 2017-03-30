@@ -7,7 +7,7 @@
         .page{flex-grow:1;display: flex;justify-content:center;align-items:center;}
         .content{width:500px;padding:50px 100px;background: white;border:1px solid #cfcfcf;border-radius:3px;}
     </style>
-@append
+@stop
 @section("main")
     <div class="page">
         <div class="content">
@@ -30,4 +30,4 @@
             </form>
         </div>
     </div>
-@append
+@stop

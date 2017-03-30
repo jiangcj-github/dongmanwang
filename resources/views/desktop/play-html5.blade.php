@@ -126,7 +126,6 @@
             </div>
         </div>
     </div>
-
 @stop
 @section("js_lib")
     @parent

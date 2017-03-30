@@ -11,21 +11,18 @@
 |
 */
 
-Route::get("/","AdminController@test");
 
-Route::get("/m1",function(){
-   return response()->view("content/m1");
+Route::get("/",function(){
+    return view("loading");
 });
 
-Route::get("/main2",function(){
-   return response()->view("main2");
-});
+Route::get("/loading","MainController@getLoading");
 
 Route::get("/play","PlayController@getPlay");
 Route::get("/play/video","PlayController@getMp4");
 
 Route::get("/main","MainController@getMain");
-Route::get("/categery","MainController@getCategery");
+Route::get("/main/categery","MainController@getCategery");
 Route::get("/search","MainController@getSearch");
 
 Route::get("/admin","AdminController@admin");

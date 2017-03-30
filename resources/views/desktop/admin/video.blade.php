@@ -17,7 +17,7 @@
         .table-footer>button{margin:0 2px;}
         input[type=checkbox]:hover{cursor:pointer;}
     </style>
-@append
+@stop
 @section("main")
     <div class="content">
         <div class="section">
@@ -103,7 +103,7 @@
             </div>
         </div>
     </div>
-@append
+@stop
 @section("js")
     @parent
     <script>
@@ -153,4 +153,4 @@
             location.href="/admin/video?srch_cat="+srch_cat;
         }
     </script>
-@append
+@stop

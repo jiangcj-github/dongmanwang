@@ -36,15 +36,13 @@
         </div>
         <div class="topBar-item right align-center">
             <span class="search-frame">
-                <input type="search" class="search" placeholder="快来搜一搜吧！">
+                <input type="search" class="search" placeholder="快来搜一搜吧！" value="{!! $srch_key or "" !!}">
                 <span class="search-btn">搜索</span>
             </span>
         </div>
     </nav>
     @yield("main")
     @section("js_lib")
-        <script src="/lib/ladda/dist/spin.min.js"></script>
-        <script src="/lib/ladda/dist/ladda.min.js"></script>
     @show
     @section("js")
         <script>
@@ -52,9 +50,8 @@
             $(".topBar").on("selectstart",function(){return false;});
             $(".search-btn").click(function(){
                 var key=$(".search").val();
-                console.log(key);
-                if(key==null||key=="") return;
-                open("/search?key="+key,"_blank");
+                if(key==null||/^\s*$/.test(key)) return;
+                location.href="/search?key="+key;
             })
         </script>
     @show

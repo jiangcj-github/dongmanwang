@@ -25,7 +25,7 @@
         .video img{width:240px;height:140px;border:1px solid gray;}
         .video img:hover{cursor:pointer;border:1px solid darkgray;}
     </style>
-@append
+@stop
 @section("main")
     <div class="content">
         <div class="section">
@@ -183,7 +183,7 @@
             </div>
         </div>
     </div>
-@append
+@stop
 @section("js")
     @parent
     <script>
@@ -392,4 +392,4 @@
             $("#cat_span_sel").text("选中"+$("#cat table tr input[type=checkbox]:checked").length+"项");
         });
     </script>
-@append
+@stop
