@@ -44,7 +44,8 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        //return response()->view("errors/error");
+        $device=session("device","desktop");
+        //return response()->view($device."/errors/404");
         return parent::render($request, $exception);
     }
 

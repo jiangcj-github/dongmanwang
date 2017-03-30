@@ -11,12 +11,22 @@ class MainController extends Controller
 
     public function getMain(Request $request){
 
-        return response()->view("main/home");
+        $device=session("device","desktop");
+        return response()->view($device."/main/home");
     }
 
-    public function getLoading(Request $request){
+    public function clearDevice(Request $request){
+        session()->forget("device");
+    }
 
-        return response()->view("desktop/main/home");
+    public function confirmDevice(Request $request){
+        $deviceWidth=$request->input("deviceWidth",800);
+        if($deviceWidth>=800){
+            session(["device"=>"desktop"]);
+        }else{
+            session(["device"=>"mobile"]);
+        }
+        return redirect()->back();
     }
 
     public function getCategery(Request $request){
@@ -25,7 +35,8 @@ class MainController extends Controller
         $result1=DB::select("select * from video_categery where id=?",[$id]);
         $result2=DB::select("select * from video where categery=? limit ? offset ?",[$id,20,($cat_page-1)*20]);
         $result3=DB::select("select count(id) as cat_count from video where categery=?",[$id]);
-        return view("main/categery",[
+        $device=session("device","desktop");
+        return response()->view($device."/main/categery",[
             "cat_page"=>$cat_page,
             "cat_count"=>$result3[0]->cat_count,
             "categery"=>$result1[0],
@@ -35,8 +46,9 @@ class MainController extends Controller
 
     public function getSearch(Request $request){
         $key=$request->input("key");
+        $device=session("device","desktop");
         if($key==null||$key==""){
-            return view("errors/404");
+            return response()->view($device."/errors/404");
         }
         $searchs=[];
         $len=mb_strlen($key);
@@ -127,7 +139,7 @@ class MainController extends Controller
             }
         }
         $searchs["相关查询结果3"]=$result4;
-        return view("search",[
+        return response()->view($device."/search",[
             "srch_key"=>$key,
            "searchs"=>$searchs
         ]);

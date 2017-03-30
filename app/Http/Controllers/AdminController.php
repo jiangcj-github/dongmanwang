@@ -33,7 +33,8 @@ class AdminController extends Controller
         $result11=DB::select("select count(id) as count from video_categery");
         $result2=DB::select("select * from video_categery");
         //
-        return view("admin/home",[
+        $device=session("device","desktop");
+        return response()->view($device."/admin/home",[
             "categery"=>$result1,
             "categerys"=>$result2,
             "cat_page"=>$cat_page,
@@ -42,7 +43,8 @@ class AdminController extends Controller
     }
 
     public function admin(Request $request){
-        return response()->view("admin/login");
+        $device=session("device","desktop");
+        return response()->view($device."/admin/login");
     }
 
     //
@@ -170,7 +172,8 @@ class AdminController extends Controller
         //categery
         $result2=DB::select("select * from video_categery");
 
-        return view("admin/video",[
+        $device=session("device","desktop");
+        return response()->view($device."/admin/video",[
             "video"=>$result1,
             "v_page"=>$v_page,
             "v_count"=>$result11[0]->count,
@@ -213,15 +216,16 @@ class AdminController extends Controller
 
     public function getVideoUpdate(Request $request){
         $id=$request->input("id");
+        $device=session("device","desktop");
         if($id==null){
-            return view("errors/404");
+            return response()->view($device."/errors/404");
         }
         $result1=DB::select("select * from video where id=?",[$id]);
         $video=$result1[0];
         $ymd=explode("-",$video->firstshow);
         $result2=DB::select("select * from video_categery");
 
-        return view("admin/video-update",[
+        return response()->view($device."/admin/video-update",[
             "video"=>$result1[0],
             "ymd"=>$ymd,
             "categerys"=>$result2

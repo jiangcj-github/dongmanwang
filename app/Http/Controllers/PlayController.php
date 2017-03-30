@@ -16,8 +16,9 @@ class PlayController extends Controller
 
     public function getPlay(Request $request){
         $video_id = $request->input("id");
+        $device=session("device","desktop");
         if($video_id==null){
-            return view("errors/404");
+            return response()->view($device."/errors/404");
         }
         //video
         $result1 = DB::select("select * from video where id=?", [$video_id]);
@@ -42,7 +43,7 @@ class PlayController extends Controller
             $push_list[]=$re[0];
         }
 
-        return response()->view("play-html5", [
+        return response()->view($device."/play-html5", [
             "video" => $result1[0],
             "comment" => $result2,
             "cm_page"=>$cm_page,
@@ -73,7 +74,8 @@ class PlayController extends Controller
             $url = $protectedPath.$token."/".$hexTime.$fileName;
             return redirect($url);
         }
-        return view("errors/404");
+        $device=session("device","desktop");
+        return response()->view($device."/errors/404");
     }
 
 }

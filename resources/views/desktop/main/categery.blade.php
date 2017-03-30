@@ -1,4 +1,4 @@
-@extends("main")
+@extends("desktop/main")
 @section("css")
     @parent
     <style>

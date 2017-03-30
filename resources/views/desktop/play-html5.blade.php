@@ -1,4 +1,4 @@
-@extends("nav")
+@extends("desktop/nav")
 @section("title","动画电影网")
 @section("css_lib")
     @parent

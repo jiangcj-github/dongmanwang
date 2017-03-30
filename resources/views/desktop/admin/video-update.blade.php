@@ -1,4 +1,4 @@
-@extends("nav")
+@extends("desktop/nav")
 @section("title","更新视频")
 @section("css")
     @parent
