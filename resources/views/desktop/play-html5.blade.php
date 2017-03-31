@@ -3,6 +3,7 @@
 @section("css_lib")
     @parent
     <link rel="stylesheet" href="/css/play.css">
+    <link rel="stylesheet" href="/css/plugin.css">
 @stop
 @section("main")
     <div class="content">
@@ -90,9 +91,25 @@
                 <div class="sc_label">
                     发表留言:
                 </div>
+                <div class="sc_img_header">
+                    <button class="btn btn-warning btn-xs sc_btn_img" onclick="$(this).next().click();">添加图片</button>
+                    <input type="file" style="display: none" id="sc_input_img">
+                    <span style="font-size:0.8em;color:#e4b9b9;">默认尺寸(8:5),最多5张</span>
+                </div>
+                <div class="sc_img">
+                    <img src="img/1.jpg"><i class="glyphicon glyphicon-remove-circle sc_img_remove"></i>
+                    <img src="img/1.jpg"><i class="glyphicon glyphicon-remove-circle sc_img_remove"></i>
+                    <img src="img/1.jpg"><i class="glyphicon glyphicon-remove-circle sc_img_remove"></i>
+                    <img src="img/1.jpg"><i class="glyphicon glyphicon-remove-circle sc_img_remove"></i>
+                    <img src="img/1.jpg"><i class="glyphicon glyphicon-remove-circle sc_img_remove"></i>
+                </div>
                 <textarea class="sc_text" rows="5" id="sc_text"></textarea>
-                <div class="sc_emotion"><img src="/img/laugh.png" style="width:24px;height:24px;"></div>
-                <div class="sc_submit">提交</div>
+                <div class="sc_emotion">
+                    <img src="/img/sc_face.png" style="width:24px;height:24px;">
+                </div>
+                <div class="sc_submit" id="sc_submit">提交</div>
+
+
             </div>
             <div class="com-list">
                 <div class="cl_header">
@@ -104,7 +121,7 @@
                     <div class="cl-item">
                         <img src="/data/member/headimg/{!! $value->user_id !!}.png" class="headImg">
                         <div class="item-content">
-                            <div class="ic-header">{!! $value->name !!}<span class="small">{!! $value->time !!}</span></div>
+                            <div class="ic-header">{!! $value->name !!}<span class="small">{!! \App\Util\TimeUtil::time_tran($value->time) !!}</span></div>
                             <div class="ic-main">{!! $value->text !!}</div>
                         </div>
                     </div>
@@ -131,5 +148,6 @@
     @parent
     <script type="text/javascript" src="/lib/jQuery-qqFace/js/jquery.qqFace.js"></script>
     <script type="text/javascript" src="/lib/jQuery-qqFace/js/jquery-browser.js"></script>
+    <script type="text/javascript" src="/js/plugin.js"></script>
     <script type="text/javascript" src="/js/play.js"></script>
 @stop

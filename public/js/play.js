@@ -247,3 +247,9 @@ $(".plist-item").click(function(){
     var id=$(this).data("video");
     open("/play?id="+id,"_blank");
 });
+
+//
+$("#sc_submit").click(function(){
+    var text=$("#sc_text").val();
+    console.log(text);
+});

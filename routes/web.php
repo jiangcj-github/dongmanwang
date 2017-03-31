@@ -25,6 +25,7 @@ Route::group(["middleware"=>"device"],function(){
     Route::get("/main","MainController@getMain");
     Route::get("/main/categery","MainController@getCategery");
     Route::get("/search","MainController@getSearch");
+    Route::get("/search_input","MainController@getSearchInput");
 
     Route::get("/admin","AdminController@admin");
     Route::post("/admin/login","AdminController@login");

@@ -71,3 +71,5 @@ $.fn.extend({
         }
     }
 });
+
+//editor

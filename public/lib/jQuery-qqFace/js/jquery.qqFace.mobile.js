@@ -26,7 +26,7 @@
 				for(var i=1; i<=75; i++){
 					labFace = '['+tip+i+']';
 					strFace += '<td><img src="'+path+i+'.gif" onclick="$(\'#'+option.assign+'\').setCaret();$(\'#'+option.assign+'\').insertAtCaret(\'' + labFace + '\');" /></td>';
-					if( i % 15 == 0 ) strFace += '</tr><tr>';
+					if( i % 10 == 0 ) strFace += '</tr><tr>';
 				}
 				strFace += '</tr></table></div>';
 			}
@@ -36,6 +36,7 @@
 			$('#'+id).css('top',top);
 			$('#'+id).css('left',offset.left);
 			$('#'+id).show();
+            $('#'+option.assign).focus();
 			e.stopPropagation();
 		});
 
@@ -83,6 +84,7 @@ jQuery.fn.extend({
 		$(this).click(initSetCaret).select(initSetCaret).keyup(initSetCaret); 
 	}, 
 
+	/*
 	insertAtCaret: function(textFeildValue){ 
 		var textObj = $(this).get(0); 
 		if(document.all && textObj.createTextRange && textObj.caretPos){ 
@@ -101,8 +103,9 @@ jQuery.fn.extend({
 			textObj.blur(); 
 		}else{ 
 			textObj.value+=textFeildValue; 
-		} 
-	}
+		}
+		$(textObj).focus();
+	} */
+
 
 });
-

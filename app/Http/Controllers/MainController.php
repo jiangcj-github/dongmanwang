@@ -145,4 +145,9 @@ class MainController extends Controller
         ]);
     }
 
+    public function getSearchInput(Request $request){
+        $device=session("device","desktop");
+        return response()->view($device."/search_input");
+    }
+
 }
