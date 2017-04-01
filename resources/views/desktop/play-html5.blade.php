@@ -94,24 +94,23 @@
                 <div class="sc_img_header">
                     <button class="btn btn-warning btn-xs sc_btn_img" onclick="$(this).next().click();">添加图片</button>
                     <input type="file" style="display: none" id="sc_input_img">
-                    <span style="font-size:0.8em;color:#e4b9b9;">默认尺寸(8:5),最多5张</span>
+                    <span style="font-size:0.8em;color:#acb4bb;">仅限png格式,默认比例(8:5),最多5张</span>
+                    <span id="sc_img_error"></span>
                 </div>
-                <div class="sc_img">
-                    <img src="img/1.jpg"><i class="glyphicon glyphicon-remove-circle sc_img_remove"></i>
-                    <img src="img/1.jpg"><i class="glyphicon glyphicon-remove-circle sc_img_remove"></i>
-                    <img src="img/1.jpg"><i class="glyphicon glyphicon-remove-circle sc_img_remove"></i>
-                    <img src="img/1.jpg"><i class="glyphicon glyphicon-remove-circle sc_img_remove"></i>
-                    <img src="img/1.jpg"><i class="glyphicon glyphicon-remove-circle sc_img_remove"></i>
-                </div>
+                <div class="sc_img"></div>
                 <textarea class="sc_text" rows="5" id="sc_text"></textarea>
                 <div class="sc_emotion">
-                    <img src="/img/sc_face.png" style="width:24px;height:24px;">
+                    <img src="/img/sc_face.png" id="sc_face" style="width:24px;height:24px;">
+                    <img src="/img/sc_link.png" id="sc_link" style="width:24px;height:24px;">
+                    <div id="sc_link_popup">
+                        <input type="text" placeholder="链接文本">
+                        <input type="url" placeholder="链接地址">
+                        <button class="btn btn-warning">确认</button>
+                    </div>
                 </div>
-                <div class="sc_submit" id="sc_submit">提交</div>
-
-
+                <div class="sc_submit" id="sc_submit" data-video="{!! $video->id !!}">提交</div>
             </div>
-            <div class="com-list">
+            <div class="com-list" id="commentList">
                 <div class="cl_header">
                     <a href="javascript:void(0);">按时间</a>
                     <span style="margin-left:3px;margin-right: 3px;color:black;">|</span>
@@ -122,6 +121,13 @@
                         <img src="/data/member/headimg/{!! $value->user_id !!}.png" class="headImg">
                         <div class="item-content">
                             <div class="ic-header">{!! $value->name !!}<span class="small">{!! \App\Util\TimeUtil::time_tran($value->time) !!}</span></div>
+                            @if($value->img!=null)
+                                <div class="ic-img">
+                                @foreach(explode("-",$value->img,-1) as $im)
+                                    <img src="/data/comment/img/{!! $value->id !!}/{!! $im !!}.png">
+                                @endforeach
+                                </div>
+                            @endif
                             <div class="ic-main">{!! $value->text !!}</div>
                         </div>
                     </div>
@@ -132,17 +138,19 @@
                     @if($cm_page<=1)
                         <button class="btn btn-warning btn-xs" disabled>上一页</button>
                     @else
-                        <button class="btn btn-warning btn-xs" onclick="location.href='/play?id={!! $video->id !!}&cm_page={!! $cm_page-1 !!}'">上一页</button>
+                        <button class="btn btn-warning btn-xs" onclick="location.href='/play?id={!! $video->id !!}&cm_page={!! $cm_page-1 !!}#commentList'">上一页</button>
                     @endif
                     @if($cm_page>=ceil($cm_count/10))
                         <button class="btn btn-warning btn-xs" disabled>下一页</button>
                     @else
-                        <button class="btn btn-warning btn-xs" onclick="location.href='/play?id={!! $video->id !!}&cm_page={!! $cm_page+1 !!}'">下一页</button>
+                        <button class="btn btn-warning btn-xs" onclick="location.href='/play?id={!! $video->id !!}&cm_page={!! $cm_page+1 !!}#commentList'">下一页</button>
                     @endif
                 </div>
             </div>
         </div>
     </div>
+    <div style="height:100px;"></div>
+    <input type="hidden" value="{!! csrf_token() !!}" id="_token">
 @stop
 @section("js_lib")
     @parent

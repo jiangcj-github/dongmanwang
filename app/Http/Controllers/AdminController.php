@@ -95,6 +95,7 @@ class AdminController extends Controller
         return response()->json();
     }
 
+    //upload非原子性，只能同时允许一个用户上传
     public function uploadPoster(Request $request){
         $file = $request->file("file");
         if ($file==null||!$file->isValid()){

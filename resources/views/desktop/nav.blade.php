@@ -20,7 +20,7 @@
             .logo:hover{cursor:pointer;}
             .logo-text{font-size: 1.8em;font-weight: bold;text-shadow: 2px 2px 2px grey;}
             .search-frame{border:3px solid red;background:red;}
-            .search{border:none;outline:none;padding:5px 0 5px 5px;}
+            .search{border:none;outline:none;padding:5px 0 5px 5px;width:170px;}
             .search-btn{padding:5px;color:white;cursor:pointer;}
             .search-btn:hover{color:#cfcfcf;}
         </style>

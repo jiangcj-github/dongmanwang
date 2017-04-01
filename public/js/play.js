@@ -210,35 +210,6 @@ function formatSeconds(s){
 }
 
 //
-$('.sc_emotion img').qqFace({
-    assign:'sc_text',
-    path:'/lib/jQuery-qqFace/arclist/',
-    id:'face_2'
-});
-//
-
-//
-function replace_em(str){
-    str = str.replace(/\</g,'&lt;');
-    str = str.replace(/\>/g,'&gt;');
-    str = str.replace(/\n/g,'<br/>');
-    str = str.replace(/\[em_([0-9]*)\]/g,'<img src="/lib/jQuery-qqFace/arclist/$1.gif" border="0" />');
-    return str;
-}
-
-$(".r_list_time").text(function(){
-    return formatSeconds($(this).text());
-});
-$(".r_list_content").html(function(){
-    return replace_em($(this).html());
-});
-$(".ic-main").html(function(){
-    return replace_em($(this).html());
-});
-$(".reply-content").html(function(){
-    return replace_em($(this).html());
-});
-
 $(".push-cell-img").click(function(){
     var id=$(this).parent(".push-cell").data("video");
     open("/play?id="+id,"_blank");
@@ -249,7 +220,101 @@ $(".plist-item").click(function(){
 });
 
 //
+$('#sc_face').qqFace({
+    assign:'sc_text',
+    path:'/lib/jQuery-qqFace/arclist/',
+    id:'face_2'
+});
+
+function replace_em(str){
+    str = str.replace(/\</g,'&lt;');
+    str = str.replace(/\>/g,'&gt;');
+    str = str.replace(/\n/g,'<br/>');
+    str = str.replace(/\[em_([0-9]*)\]/g,'<img src="/lib/jQuery-qqFace/arclist/$1.gif" border="0" />');
+    return str;
+}
+
+$(".ic-main").html(function(){
+    return replace_em($(this).html());
+});
+
+$("#sc_link").click(function(e){
+    $("#sc_link_popup").addClass("eject");
+    e.stopPropagation();
+});
+
+$(document).click(function(){
+    $("#sc_link_popup").removeClass("eject");
+})
+
+//send comment
+$("#sc_input_img").change(function(){
+    //
+    var handle=$(".sc_img").data("handle");
+    if(handle==null){
+        $.get("/play/startCommentHandle",function(data){
+            if(!data.handle){
+                $("#sc_img_error").text("无法上传文件");
+            }else{
+                $(".sc_img").data("handle",data.handle);
+                uploadCommentImage();
+            }
+        });
+    }else{
+        uploadCommentImage();
+    }
+});
+
+function uploadCommentImage(){
+    if($(".sc_img").children("img").length>=5){
+        $("#sc_img_error").text("上传超过限制");
+        return;
+    }
+    var formData = new FormData();
+    formData.append("file", $("#sc_input_img")[0].files[0]);
+    formData.append("handle",$(".sc_img").data("handle"));
+    formData.append("_token",$("#_token").val());
+    $.ajax({
+        url: "/play/uploadCommentImage",
+        type: "POST",
+        data: formData,
+        contentType:false,
+        processData:false,
+        success: function(data){
+            if(data.msg){
+                $("#sc_img_error").text("文件"+$("#sc_input_img")[0].files[0].name+"上传失败，"+data.msg);
+            }else{
+                $(".sc_img").append("<img src=\""+data.url+"\" data-name=\""+data.name+"\">");
+                var i=$("<i class=\"glyphicon glyphicon-remove-circle sc_img_remove\"></i>");
+                i.appendTo($(".sc_img"));
+               i.click(function(){
+                  $.get("/play/removeCommentImage?name="+$(this).prev().data("name")+"&handle="+$(".sc_img").data("handle"));
+                   $(this).prev().remove();
+                   $(this).remove();
+               });
+            }
+        },
+        error:function(){
+            $("#sc_img_error").text("文件"+$("#sc_input_img")[0].files[0].name+"上传失败");
+        }
+    });
+}
+
 $("#sc_submit").click(function(){
     var text=$("#sc_text").val();
-    console.log(text);
+    var img="";
+    $(".sc_img").children("img").each(function(){
+        img+=$(this).data("name")+"-";
+    });
+    var handle=$(".sc_img").data("handle");
+    var _token=$("#_token").val();
+    var video_id=$(this).data("video");
+    if((text==null||/^\s*$/.test(text))&&(/^\s*$/.test(img)||img==null)) return;
+    $.post("/play/addComment",{_token:_token,text:text,img:img,handle:handle,video_id:video_id},function(data){
+        if(data.msg){
+            $("#sc_img_error").text(data.msg);
+        }else{
+           location.reload();
+        }
+    })
 });

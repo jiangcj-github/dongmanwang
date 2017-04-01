@@ -21,6 +21,10 @@ Route::group(["middleware"=>"device"],function(){
 
     Route::get("/play","PlayController@getPlay");
     Route::get("/play/video","PlayController@getMp4");
+    Route::get("/play/startCommentHandle","PlayController@startCommentHandle");
+    Route::post("/play/uploadCommentImage","PlayController@uploadCommentImage");
+    Route::get("/play/removeCommentImage","PlayController@removeCommentImage");
+    Route::post("/play/addComment","PlayController@addComment");
 
     Route::get("/main","MainController@getMain");
     Route::get("/main/categery","MainController@getCategery");

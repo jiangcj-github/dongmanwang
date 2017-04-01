@@ -7,8 +7,7 @@ class TimeUtil
 {
     //the_time格式 Y-m-d H:i:s
     public static function time_tran($the_time) {
-        date_default_timezone_set("PRC");
-        $now_time = date("Y-m-d H:i:s", time());
+        $now_time = date("Y-m-d H:i:s",time());
         $now_time = strtotime($now_time);
         $show_time = strtotime($the_time);
         $dur = $now_time - $show_time;
