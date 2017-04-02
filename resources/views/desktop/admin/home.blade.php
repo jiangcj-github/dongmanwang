@@ -271,24 +271,24 @@
         });
 
         $("#v_btn_submit").click(function(){
-           var name=$("#v_input_name").val();
-           if(name==null||name==""){
+            var name=$("#v_input_name").val();
+            if(name==null||/^\s*$/.test(name)){
                $("#upload_error").show();
                $("#upload_error").children("span").text("name为空");
                return;
            }
            var nation=$("#v_input_nation").val();
-           if(nation==null||nation==""){
+           if(nation==null||/^\s*$/.test(nation)){
                $("#upload_error").show();
                $("#upload_error").children("span").text("nation为空");
                return;
            }
            var author=$("#v_input_author").val();
-            if(author==null||author==""){
-                $("#upload_error").show();
-                $("#upload_error").children("span").text("author为空");
-                return;
-            }
+           if(author==null||/^\s*$/.test(author)){
+               $("#upload_error").show();
+               $("#upload_error").children("span").text("author为空");
+               return;
+           }
            var categery=$("#v_input_categery").val();
            var firstshow=$("#v_input_firstshow_y").val()+"-"+$("#v_input_firstshow_m").val()+"-"+$("#v_input_firstshow_d").val();
            var _token="{!! csrf_token() !!}";
@@ -342,6 +342,7 @@
         }
         function renameCat(id,e){
             var name=$(e).parent("td").prev().text();
+            if(name==null||/^\s*$/.test(name)) return;
             var _token="{!! csrf_token() !!}";
             $.post("/admin/home/renameCategery",{id:id,name:name,_token:_token},function(data){
                 if(!data.msg){

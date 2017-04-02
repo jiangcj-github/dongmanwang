@@ -235,19 +235,19 @@
 
         $("#v_btn_submit").click(function(){
             var name=$("#v_input_name").val();
-            if(name==null||name==""){
+            if(name==null||/^\s*$/.test(name)){
                 $("#upload_error").show();
                 $("#upload_error").children("span").text("name为空");
                 return;
             }
             var nation=$("#v_input_nation").val();
-            if(nation==null||nation==""){
+            if(nation==null||/^\s*$/.test(nation)){
                 $("#upload_error").show();
                 $("#upload_error").children("span").text("nation为空");
                 return;
             }
             var author=$("#v_input_author").val();
-            if(author==null||author==""){
+            if(author==null||/^\s*$/.test(author)){
                 $("#upload_error").show();
                 $("#upload_error").children("span").text("author为空");
                 return;

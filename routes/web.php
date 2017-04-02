@@ -24,10 +24,13 @@ Route::group(["middleware"=>"device"],function(){
     Route::get("/play/startCommentHandle","PlayController@startCommentHandle");
     Route::post("/play/uploadCommentImage","PlayController@uploadCommentImage");
     Route::get("/play/removeCommentImage","PlayController@removeCommentImage");
-    Route::post("/play/addComment","PlayController@addComment");
+    Route::group(["middleware"=>"user"],function(){
+        Route::post("/play/addComment","PlayController@addComment");
+    });
 
     Route::get("/main","MainController@getMain");
     Route::get("/main/categery","MainController@getCategery");
+
     Route::get("/search","MainController@getSearch");
     Route::get("/search_input","MainController@getSearchInput");
 

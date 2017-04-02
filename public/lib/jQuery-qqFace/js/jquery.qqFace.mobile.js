@@ -84,7 +84,6 @@ jQuery.fn.extend({
 		$(this).click(initSetCaret).select(initSetCaret).keyup(initSetCaret); 
 	}, 
 
-	/*
 	insertAtCaret: function(textFeildValue){ 
 		var textObj = $(this).get(0); 
 		if(document.all && textObj.createTextRange && textObj.caretPos){ 
@@ -105,7 +104,7 @@ jQuery.fn.extend({
 			textObj.value+=textFeildValue; 
 		}
 		$(textObj).focus();
-	} */
+	}
 
 
 });

@@ -229,34 +229,86 @@ $('#sc_face').qqFace({
 function replace_em(str){
     str = str.replace(/\</g,'&lt;');
     str = str.replace(/\>/g,'&gt;');
+    str = str.replace(/ /g,'&nbsp;');
     str = str.replace(/\n/g,'<br/>');
     str = str.replace(/\[em_([0-9]*)\]/g,'<img src="/lib/jQuery-qqFace/arclist/$1.gif" border="0" />');
     return str;
 }
 
+function replace_link(str){
+    str = str.replace(/\[link_(.*)@(.*)\]/g,'<a href="$2" target="_blank">$1</a>');
+    return str;
+}
+
 $(".ic-main").html(function(){
-    return replace_em($(this).html());
+    return replace_link(replace_em($(this).html()));
 });
 
-$("#sc_link").click(function(e){
-    $("#sc_link_popup").addClass("eject");
-    e.stopPropagation();
-});
-
-$(document).click(function(){
+$("#sc_face").click(function(){
     $("#sc_link_popup").removeClass("eject");
-})
+});
+$("#sc_link").click(function(e){
+    $("#sc_link_popup").toggleClass("eject");
+    //for mobile
+    if($("#sc_link_popup").hasClass("eject")){
+        $("#scb_link_v_text").focus();
+    }
+});
+
+function insertAtCaret(textFeildValue){
+    var textObj = $(this).get(0);
+    if(document.all && textObj.createTextRange && textObj.caretPos){
+        var caretPos=textObj.caretPos;
+        caretPos.text = caretPos.text.charAt(caretPos.text.length-1) == '' ?
+        textFeildValue+'' : textFeildValue;
+    } else if(textObj.setSelectionRange){
+        var rangeStart=textObj.selectionStart;
+        var rangeEnd=textObj.selectionEnd;
+        var tempStr1=textObj.value.substring(0,rangeStart);
+        var tempStr2=textObj.value.substring(rangeEnd);
+        textObj.value=tempStr1+textFeildValue+tempStr2;
+        textObj.focus();
+        var len=textFeildValue.length;
+        textObj.setSelectionRange(rangeStart+len,rangeStart+len);
+        textObj.blur();
+    }else{
+        textObj.value+=textFeildValue;
+    }
+    $(textObj).focus();
+}
+
+$("#scb_link_btn_a").click(function(){
+    var text=$("#scb_link_v_text").val();
+    var url=$("#scb_link_v_url").val();
+    if(text==null||/^\s*$/.test(text)){
+        $("#scb_link_error").text("链接文本无效");
+        //for moible
+        $("#scb_link_v_text").focus();
+        return;
+    }
+    if(url==null||!/^http(s)?:\/\/.+/.test(url)){
+        $("#scb_link_error").text("链接地址无效");
+        //for moible
+        $("#scb_link_v_url").focus();
+        return;
+    }
+    $("#sc_text").insertAtCaret("[link_"+text+"@"+url+"]");
+    $(this).parents("#sc_link_popup").removeClass("eject");
+});
+$("#scb_link_btn_c").click(function(){
+    $(this).parents("#sc_link_popup").removeClass("eject");
+});
 
 //send comment
-$("#sc_input_img").change(function(){
+$("#sch_file").change(function(){
     //
-    var handle=$(".sc_img").data("handle");
+    var handle=$(".sc_input_img").data("handle");
     if(handle==null){
         $.get("/play/startCommentHandle",function(data){
             if(!data.handle){
-                $("#sc_img_error").text("无法上传文件");
+                $("#sch_error").text("无法上传文件");
             }else{
-                $(".sc_img").data("handle",data.handle);
+                $(".sc_input_img").data("handle",data.handle);
                 uploadCommentImage();
             }
         });
@@ -266,13 +318,13 @@ $("#sc_input_img").change(function(){
 });
 
 function uploadCommentImage(){
-    if($(".sc_img").children("img").length>=5){
-        $("#sc_img_error").text("上传超过限制");
+    if($(".sc_input_img").children("img").length>=5){
+        $("#sch_error").text("上传超过限制");
         return;
     }
     var formData = new FormData();
-    formData.append("file", $("#sc_input_img")[0].files[0]);
-    formData.append("handle",$(".sc_img").data("handle"));
+    formData.append("file", $("#sch_file")[0].files[0]);
+    formData.append("handle",$(".sc_input_img").data("handle"));
     formData.append("_token",$("#_token").val());
     $.ajax({
         url: "/play/uploadCommentImage",
@@ -282,20 +334,20 @@ function uploadCommentImage(){
         processData:false,
         success: function(data){
             if(data.msg){
-                $("#sc_img_error").text("文件"+$("#sc_input_img")[0].files[0].name+"上传失败，"+data.msg);
+                $("#sch_error").text("文件"+$("#sch_file")[0].files[0].name+"上传失败，"+data.msg);
             }else{
-                $(".sc_img").append("<img src=\""+data.url+"\" data-name=\""+data.name+"\">");
-                var i=$("<i class=\"glyphicon glyphicon-remove-circle sc_img_remove\"></i>");
-                i.appendTo($(".sc_img"));
+                $(".sc_input_img").append("<img src=\""+data.url+"\" data-name=\""+data.name+"\">");
+                var i=$("<i class=\"glyphicon glyphicon-remove-circle\"></i>");
+                i.appendTo($(".sc_input_img"));
                i.click(function(){
-                  $.get("/play/removeCommentImage?name="+$(this).prev().data("name")+"&handle="+$(".sc_img").data("handle"));
+                  $.get("/play/removeCommentImage?name="+$(this).prev().data("name")+"&handle="+$(".sc_input_img").data("handle"));
                    $(this).prev().remove();
                    $(this).remove();
                });
             }
         },
         error:function(){
-            $("#sc_img_error").text("文件"+$("#sc_input_img")[0].files[0].name+"上传失败");
+            $("#sch_error").text("文件"+$("#sch_file")[0].files[0].name+"上传失败");
         }
     });
 }
@@ -303,18 +355,17 @@ function uploadCommentImage(){
 $("#sc_submit").click(function(){
     var text=$("#sc_text").val();
     var img="";
-    $(".sc_img").children("img").each(function(){
+    $(".sc_input_img").children("img").each(function(){
         img+=$(this).data("name")+"-";
     });
-    var handle=$(".sc_img").data("handle");
-    var _token=$("#_token").val();
+    var handle=$(".sc_input_img").data("handle");
     var video_id=$(this).data("video");
     if((text==null||/^\s*$/.test(text))&&(/^\s*$/.test(img)||img==null)) return;
-    $.post("/play/addComment",{_token:_token,text:text,img:img,handle:handle,video_id:video_id},function(data){
-        if(data.msg){
-            $("#sc_img_error").text(data.msg);
-        }else{
-           location.reload();
-        }
-    })
+    $("#sc_submit").prop("disabled","disabled");
+    //submit
+    $("#sc_form [name=text]").val(text);
+    $("#sc_form [name=img]").val(img);
+    $("#sc_form [name=video_id]").val(video_id);
+    $("#sc_form [name=handle]").val(handle);
+    $("#sc_form").submit();
 });

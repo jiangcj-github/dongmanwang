@@ -20,6 +20,11 @@ class MainController extends Controller
     }
 
     public function confirmDevice(Request $request){
+        //check cookie
+        $cookieEnable=$request->input("cookieEnable","true");
+        if($cookieEnable=="false"){
+            return response("Cookie Disabled");
+        }
         $deviceWidth=$request->input("deviceWidth",800);
         if($deviceWidth>=800){
             session(["device"=>"desktop"]);

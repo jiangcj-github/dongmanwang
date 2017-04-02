@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Util\Encode;
 use App\Util\Random;
-use Illuminate\Routing\Controller as BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Support\Facades\DB;
-
-use App\Util\TimeUtil;
 
 class PlayController extends Controller
 {
@@ -187,7 +183,10 @@ class PlayController extends Controller
         $text=$request->input("text");
         $video_id=$request->input("video_id");
         $time=date("Y-m-d H:i:s",time());
-        $user_id=1;
+        //user
+        $user=session("user","未知用户");
+        $result0=DB::select("select id from member where name=?",[$user]);
+        $user_id=$result0[0]->id;
         if($handle!=null){
             $img=$request->input("img");
             DB::insert("insert into comment(video_id,user_id,time,text,img) values(?,?,?,?,?)",[$video_id,$user_id,$time,$text,$img]);
@@ -204,6 +203,7 @@ class PlayController extends Controller
         }else{
             DB::insert("insert into comment(video_id,user_id,time,text) values(?,?,?,?)",[$video_id,$user_id,$time,$text]);
         }
+        return redirect("/play?id=".$video_id);
     }
 
 }
