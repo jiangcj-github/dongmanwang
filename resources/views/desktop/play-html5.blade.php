@@ -149,7 +149,7 @@
                 @endforeach
                 <div class="cl-pageControll">
                     <span class="pg-btn">第{!! $cm_page !!}页</span>
-                    <span class="pg-btn">共{!! ceil($cm_count/10) !!}页</span>
+                    <span class="pg-btn">共{!! ceil($cm_count/20) !!}页</span>
                     @if($cm_page<=1)
                         <button class="btn btn-warning btn-xs" disabled>首页</button>
                     @else
@@ -163,11 +163,11 @@
                     @for($i=-2;$i<=2;$i++)
                         @if($i==0)
                             <button class="btn btn-warning btn-xs" disabled>{!! $cm_page+$i !!}</button>
-                        @elseif($cm_page+$i>=1 && $cm_page+$i<=ceil($cm_count/10))
+                        @elseif($cm_page+$i>=1 && $cm_page+$i<=ceil($cm_count/20))
                             <button class="btn btn-warning btn-xs" onclick="location.href='/play?id={!! $video->id !!}&cm_page={!! $cm_page+$i !!}#commentList'">{!! $cm_page+$i !!}</button>
                         @endif
                     @endfor
-                    @if($cm_page>=ceil($cm_count/10))
+                    @if($cm_page>=ceil($cm_count/20))
                         <button class="btn btn-warning btn-xs" disabled>下一页</button>
                     @else
                         <button class="btn btn-warning btn-xs" onclick="location.href='/play?id={!! $video->id !!}&cm_page={!! $cm_page+1 !!}#commentList'">下一页</button>

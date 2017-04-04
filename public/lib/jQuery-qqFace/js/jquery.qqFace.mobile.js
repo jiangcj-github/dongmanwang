@@ -17,32 +17,27 @@
 			alert('缺少表情赋值对象。');
 			return false;
 		}
-		
-		$(this).click(function(e){
-			var strFace, labFace;
-			if($('#'+id).length<=0){
-				strFace = '<div id="'+id+'" style="position:absolute;display:none;z-index:1000;" class="qqFace">' +
-							  '<table border="0" cellspacing="0" cellpadding="0"><tr>';
-				for(var i=1; i<=75; i++){
-					labFace = '['+tip+i+']';
-					strFace += '<td><img src="'+path+i+'.gif" onclick="$(\'#'+option.assign+'\').setCaret();$(\'#'+option.assign+'\').insertAtCaret(\'' + labFace + '\');" /></td>';
-					if( i % 10 == 0 ) strFace += '</tr><tr>';
-				}
-				strFace += '</tr></table></div>';
+
+		var strFace, labFace;
+		if($('#'+id).length<=0){
+			strFace = '<div id="'+id+'" style="display:none;" class="qqFace">' +
+					'<table border="0" cellspacing="0" cellpadding="0"><tr>';
+			for(var i=1; i<=75; i++){
+				labFace = '['+tip+i+']';
+				strFace += '<td><img src="'+path+i+'.gif" onclick="$(\'#'+option.assign+'\').setCaret();$(\'#'+option.assign+'\').insertAtCaret(\'' + labFace + '\');" /></td>';
+				if( i % 10 == 0 ) strFace += '</tr><tr>';
 			}
-			$(this).parent().append(strFace);
-			var offset = $(this).position();
-			var top = offset.top + $(this).outerHeight();
-			$('#'+id).css('top',top);
-			$('#'+id).css('left',offset.left);
+			strFace += '</tr></table></div>';
+		}
+		$(this).parent().append(strFace);
+
+		$(this).click(function(e){
 			$('#'+id).show();
-            $('#'+option.assign).focus();
 			e.stopPropagation();
 		});
 
 		$(document).click(function(){
 			$('#'+id).hide();
-			$('#'+id).remove();
 		});
 	};
 
@@ -95,15 +90,12 @@ jQuery.fn.extend({
 			var rangeEnd=textObj.selectionEnd; 
 			var tempStr1=textObj.value.substring(0,rangeStart); 
 			var tempStr2=textObj.value.substring(rangeEnd); 
-			textObj.value=tempStr1+textFeildValue+tempStr2; 
-			textObj.focus(); 
+			textObj.value=tempStr1+textFeildValue+tempStr2;
 			var len=textFeildValue.length; 
-			textObj.setSelectionRange(rangeStart+len,rangeStart+len); 
-			textObj.blur(); 
+			textObj.setSelectionRange(rangeStart+len,rangeStart+len);
 		}else{ 
 			textObj.value+=textFeildValue; 
 		}
-		$(textObj).focus();
 	}
 
 

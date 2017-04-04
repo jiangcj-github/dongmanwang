@@ -106,33 +106,19 @@
                     </div>
                 @endforeach
                 <div class="cl-pageControll">
-                    @if($cm_page<=1)
-                        <button class="btn btn-warning btn-xs" disabled>首页</button>
+                    @if($cm_page>=ceil($cm_count/20))
+                        <div class="cl-pageBtn" data-state="done" data-page="{!! $cm_page !!}" data-count="{!! $cm_count !!}">
+                            没有更多了
+                        </div>
                     @else
-                        <button class="btn btn-warning btn-xs" onclick="location.href='/play?id={!! $video->id !!}#commentList'">首页</button>
-                    @endif
-                    @if($cm_page<=1)
-                        <button class="btn btn-warning btn-xs" disabled>上一页</button>
-                    @else
-                        <button class="btn btn-warning btn-xs" onclick="location.href='/play?id={!! $video->id !!}&cm_page={!! $cm_page-1 !!}#commentList'">上一页</button>
-                    @endif
-                    @for($i=-2;$i<=2;$i++)
-                        @if($i==0)
-                            <button class="btn btn-warning btn-xs" disabled>{!! $cm_page+$i !!}</button>
-                        @elseif($cm_page+$i>=1 && $cm_page+$i<=ceil($cm_count/10))
-                            <button class="btn btn-warning btn-xs" onclick="location.href='/play?id={!! $video->id !!}&cm_page={!! $cm_page+$i !!}#commentList'">{!! $cm_page+$i !!}</button>
-                        @endif
-                    @endfor
-                    @if($cm_page>=ceil($cm_count/10))
-                        <button class="btn btn-warning btn-xs" disabled>下一页</button>
-                    @else
-                        <button class="btn btn-warning btn-xs" onclick="location.href='/play?id={!! $video->id !!}&cm_page={!! $cm_page+1 !!}#commentList'">下一页</button>
+                        <div class="cl-pageBtn" data-state="0" data-page="{!! $cm_page !!}" data-count="{!! $cm_count !!}">
+                            点击加载更多&nbsp;<i class="icon-angle-down"></i>
+                        </div>
                     @endif
                 </div>
             </div>
         </div>
     </div>
-    <div style="height:50px;"></div>
     <input type="hidden" value="{!! csrf_token() !!}" id="_token">
 @stop
 @section("js_lib")
@@ -140,4 +126,52 @@
     <script type="text/javascript" src="/lib/jQuery-qqFace/js/jquery.qqFace.mobile.js"></script>
     <script type="text/javascript" src="/lib/jQuery-qqFace/js/jquery-browser.js"></script>
     <script type="text/javascript" src="/js/play.js"></script>
+@stop
+@section("js")
+    <script>
+        $(".cl-pageBtn").click(function(){
+            var state=$(this).data("state");
+            if(state=="loading"||state=="done"){
+                return;
+            }
+            var page=parseInt($(this).data("page"));
+            var count=parseInt($(this).data("count"));
+            //done
+            if(page>=Math.ceil(count/20)){
+                $(this).html("没有更多了");
+                $(this).data("state","done");
+            }
+            //loading
+            $(this).html("加载中...");
+            $(this).data("state","loading");
+            var _this=this;
+            $.get("/play/loadComment?video_id={!! $video->id !!}&cm_page="+(page+1),function(data){
+                //
+                for(var i=0;i<data.length;i++){
+                    var html="<div class=\"cl-item\">"+
+                        "<img src=\"/data/member/headimg/rand_"+data[i].user_id+".png\" class=\"headImg\">"+
+                        "<div class=\"item-content\">"+
+                         "<div class=\"ic-header\">"+data[i].name+"<span class=\"small\">"+data[i].time+"</span></div>";
+                    if(data[i].img.length>0){
+                        html+="<div class=\"ic-img\">";
+                        for(var i1=0;i1<data[i].img.length;i1++){
+                            html+="<img src=\"/data/comment/img/"+data[i].id+"/"+data[i].img[i1]+".png\">";
+                        }
+                        html+="</div>";
+                    }
+                    html+=" <div class=\"ic-main\">"+replace_link(replace_em(data[i].text))+"</div></div></div>";
+                    $(".cl-pageControll").before(html);
+                }
+                //
+                $(_this).data("page",page+1);
+                if((page+1)>=Math.ceil(count/20)){
+                    $(_this).html("没有更多了");
+                    $(_this).data("state","done");
+                }else{
+                    $(_this).html("点击加载更多&nbsp;<i class=\"icon-angle-down\"></i>");
+                    $(_this).data("state","0");
+                }
+            })
+        });
+    </script>
 @stop

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Util\Random;
+use App\Util\TimeUtil;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +22,7 @@ class PlayController extends Controller
         $cm_page=$request->input("cm_page",1);
         $result21=DB::select("select count(id) as count from comment");
         $result2 = DB::select("select comment.*,member.name from comment join member on comment.user_id=member.id where video_id=? ".
-            "order by comment.time desc limit ? offset ?",[$video_id,10,($cm_page-1)*10]);
+            "order by comment.time desc limit ? offset ?",[$video_id,20,($cm_page-1)*20]);
         //video_token
         $video_token = Random::getRandString(20);
         session(["video_token" => $video_token]);
@@ -47,6 +48,22 @@ class PlayController extends Controller
             "play_list" => $play_list,
             "push_list" => $push_list
         ]);
+    }
+
+    public function getComment(Request $request){
+        $video_id=$request->input("video_id");
+        $cm_page=$request->input("cm_page",1);
+        $result2 = DB::select("select comment.*,member.name from comment join member on comment.user_id=member.id where video_id=? ".
+            "order by comment.time desc limit ? offset ?",[$video_id,20,($cm_page-1)*20]);
+        foreach($result2 as $key=>$value){
+            $result2[$key]->time=TimeUtil::time_tran($value->time);
+            if($value->img!=null){
+                $result2[$key]->img=explode("-",$value->img,-1);
+            }else{
+                $result2[$key]->img=[];
+            }
+        }
+        return response()->json($result2);
     }
 
     public function getMp4(Request $request){

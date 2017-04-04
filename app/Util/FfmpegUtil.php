@@ -47,16 +47,17 @@ class FfmpegUtil
     }
 
     //ffmpeg -i test.asf -f image2 -ss 1 -s 352x240 -y a.jpg
+    //-ss必须为第一个参赛，否则速度慢
     public static function video_frame($ffmpeg,$file,$outfile){
         $res=self::video_info($ffmpeg,$file);
         $ss=floor($res["seconds"]/2);
-        exec(sprintf($ffmpeg.' -i "%s" -f image2 -ss '.$ss.' -y "%s"',$file,$outfile));
+        exec(sprintf($ffmpeg.' -ss '.$ss.' -i "%s" -f image2 -s 640*480 -y "%s"',$file,$outfile));
     }
 
     public static function video_frame_by_per($ffmpeg,$file,$outfile,$per){
         $res=self::video_info($ffmpeg,$file);
         $ss=floor($res["seconds"]/2);
         $ss=$ss*($per/100);
-        exec(sprintf($ffmpeg.' -i "%s" -f image2 -ss '.$ss.' -s 640*480 -y "%s"',$file,$outfile));
+        exec(sprintf($ffmpeg.' -ss '.$ss.' -i "%s" -f image2 -s 640*480 -y "%s"',$file,$outfile));
     }
 }

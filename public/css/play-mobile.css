@@ -1,29 +1,29 @@
 body{font-family: "微软雅黑";box-sizing: border-box;}
 .content{display:flex;flex-direction:column;}
 
-.playSec{width:100%;height:250px;margin:10px 0;position: relative;}
+.playSec{width:100%;height:250px;position: relative;}
 .vpost{position:absolute;width: 100%;height: 100%; z-index:1; background-size:100% 100% !important;
     background-repeat: no-repeat !important;}
 .vpost-btn{cursor:pointer;}
 .vpost-btn:hover{opacity:0.7;}
 .vplay{background: black;width: 100%;height: 100%;}
 
-.infoSec{width:100%;padding:10px;background:white;border:1px solid #cfcfcf;}
+.infoSec{width:100%;padding:20px 10px;background:white;border-bottom:1px solid #cfcfcf;}
 .info-img{float: left;width: 120px;height: 160px;}
 .info-text{margin-left:130px;}
 .info-text-name{font-size: 1.2em;font-weight: bold;padding-bottom: 5px;}
 .info-text-line{}
 
-.pushSec{width:100%;background:white;margin-top:10px;border:1px solid #cfcfcf;}
-.push-header{font-size: 1.2em;font-weight: bold;padding:0 15px;line-height:2.4;border-bottom: 1px solid #cfcfcf;}
+.pushSec{width:100%;background:white;border-bottom:1px solid #cfcfcf;}
+.push-header{font-size: 1.2em;font-weight: bold;padding:0 15px;line-height:2.4;}
 .push-row{display:flex;margin:10px 0;padding:0 5px;}
 .push-cell{width:35%;padding:0 5px;}
 .push-cell-img{width:100%;height:0px;padding-bottom:133%;background-size:100% 100% !important;border:1px solid #cfcfcf;}
 .push-cell-img:hover{opacity:0.8;cursor:pointer;}
 .push-cell-info{text-align:center;word-wrap:break-word;height:20px;line-height:20px;overflow:hidden;}
 
-.commentSec{width:100%;margin-top:20px;padding:0 10px;}
-.com-send{display:flex;flex-direction: column;}
+.commentSec{width:100%;margin-top:20px;}
+.com-send{display:flex;flex-direction:column;padding:0 10px;}
 .sc_label{font-size:16px;color: green;font-weight: bold;margin-bottom:10px;}
 
 .sc_input_header{border:1px solid green;border-bottom:none;background:#e3e3e3;padding:3px;}
@@ -41,8 +41,8 @@ body{font-family: "微软雅黑";box-sizing: border-box;}
 .scb_btn_group{position:relative;}
 .scb_btn_group img{cursor:pointer;width:24px;height:24px;}
 .scb_btn_group img:hover{opacity:0.8;}
-#face_2{position: absolute !important;left:0 !important;top:-226px !important;}
-.qqFace{height:226px;z-index:1 !important;background:white;border: 1px solid gray;}
+#face_2{position: absolute;left:0;top:-226px;}
+.qqFace{height:226px;z-index:1;background:white;border: 1px solid gray;}
 .qqFace img:hover{opacity:0.7;}
 #sc_link_popup{position:absolute;z-index:1;display:none;flex-direction:column;
     width:300px;background:white;border:1px solid gray;padding:5px 10px;margin-top:-173px;margin-left:-24px;}
@@ -54,19 +54,19 @@ body{font-family: "微软雅黑";box-sizing: border-box;}
 
 .sc_submit{align-self:flex-end;width:100px;height:35px;background:green;margin-top: 10px;outline:none;border:none;border-radius:0;}
 /**/
-.com-list{display: flex;flex-direction: column;margin-top: 10px;padding: 10px;border: 1px solid #cccccc;}
-.cl_header{font-size: 16px;padding-bottom: 10px;border-bottom: 1px solid #e1e2e5;}
-.cl_header a{text-decoration: none;color: green;}
+.com-list{display: flex;flex-direction: column;margin-top:10px;padding:10px;border-top:1px solid #cfcfcf;}
+.cl_header{font-size: 16px;padding-bottom: 10px;}
+.cl_header a{text-decoration: none;color:green;}
 .cl_header a:hover{color:darkgreen;}
 .cl-item{padding: 10px 0; border-bottom: 1px solid #e1e2e5;}
 .headImg{width:48px;height: 48px;float:left;}
 .item-content{margin-left:58px;}
 .ic-header{height: 20px;margin-bottom: 4px;font-size: 12px;color:#7b838a;}
 .ic-header .small{font-size: 12px;float: right;color:#acb4bb;}
-.ic-img{margin-bottom:10px;}
-.ic-img img{width:160px;height:100px;}
+.ic-img{margin-bottom:5px;}
+.ic-img img{width:160px;height:100px;margin-bottom:5px;}
 .ic-main{line-height: 20px;font-size: 14px;word-break:break-all;}
 .ic-main a{text-decoration:none;margin:0 3px;}
 
-.cl-pageControll{display:flex;justify-content:center;height: 50px;align-items: center;}
-.cl-pageControll .btn{margin:3px;outline:none !important;border-radius:0;}
+.cl-pageControll{display:flex;justify-content:center;height: 50px;}
+.cl-pageBtn{line-height:50px;}

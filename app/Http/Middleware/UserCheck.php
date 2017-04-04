@@ -19,8 +19,8 @@ class UserCheck
             }while($result1[0]->count>0);
             DB::insert("insert into member(name) values(?)",[$name]);
             session(["user"=>$name]);
-        }else{
-            return $next($request);
         }
+        return $next($request);
     }
+
 }

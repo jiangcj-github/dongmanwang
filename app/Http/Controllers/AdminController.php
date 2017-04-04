@@ -134,7 +134,7 @@ class AdminController extends Controller
         //
         $frame_path="./data/video/frame/".$result1[0]->table_seq.".jpg";
         FfmpegUtil::video_frame("ffmpeg",$newFilePath,$frame_path);
-        return response()->json(["url"=>"/data/video/mp4/".$result1[0]->table_seq.".jpg"]);
+        return response()->json(["url"=>"/data/video/frame/".$result1[0]->table_seq.".jpg"]);
     }
 
     public function addVideo(Request $request){
