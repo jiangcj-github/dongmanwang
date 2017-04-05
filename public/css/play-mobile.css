@@ -30,7 +30,7 @@ body{font-family: "微软雅黑";box-sizing: border-box;}
 .sch_btn{outline: none !important;border-radius:0;}
 #sch_error{padding-left:5px;color:red;font-size:0.8em;border-left:1px solid green;
     border-right:1px solid green;background:#e3e3e3;overflow:hidden;}
-.sc_input_img{border:1px solid green;border-bottom:none;border-top:none;background:#e3e3e3;display:flex;overflow:hidden;}
+.sc_input_img{border:1px solid green;border-bottom:none;border-top:none;background:#e3e3e3;}
 .sc_input_img img{width:160px;height:100px;border:1px solid #cfcfcf;margin:0 5px;}
 .sc_input_img i{width:22px;font-size: 1.2em;margin:3px 0 0 -30px;cursor:pointer;align-self:flex-start;padding:3px;}
 .sc_input_img i:hover{color:black;}
