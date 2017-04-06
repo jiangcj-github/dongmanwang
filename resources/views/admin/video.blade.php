@@ -4,7 +4,7 @@
     @parent
     <style>
         .content{padding:20px 50px;}
-        .section{background: white;border:1px solid #cfcfcf;;margin-bottom:20px;}
+        .section{background: white;border:1px solid #cfcfcf;margin-bottom:20px;}
         .section-header{font-size:1.2em;line-height:2.4;padding:0 15px;border-bottom:1px solid #cfcfcf;font-weight:bold;}
         .section-header a{text-decoration:none !important;}
         .section-content{padding:20px 50px;}
