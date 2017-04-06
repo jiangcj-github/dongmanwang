@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Support\Facades\DB;
 
+
+//网站管理的controller，只限于Desktop
+
 class AdminController extends Controller
 {
     private $USER="lindakai";
@@ -33,8 +36,7 @@ class AdminController extends Controller
         $result11=DB::select("select count(id) as count from video_categery");
         $result2=DB::select("select * from video_categery");
         //
-        $device=session("device","desktop");
-        return response()->view($device."/admin/home",[
+        return response()->view("/admin/home",[
             "categery"=>$result1,
             "categerys"=>$result2,
             "cat_page"=>$cat_page,
@@ -43,8 +45,7 @@ class AdminController extends Controller
     }
 
     public function admin(Request $request){
-        $device=session("device","desktop");
-        return response()->view($device."/admin/login");
+        return response()->view("/admin/login");
     }
 
     //
@@ -153,7 +154,7 @@ class AdminController extends Controller
         }
         $info=FfmpegUtil::video_info("ffmpeg",$videoFile);
         $duration=$info["duration"];
-        DB::insert("insert into video(id,name,duration,firstshow,nation,author,categery) values(?,?,?,?,?,?,?)",[$result1[0]->table_seq,$name,$duration,$firstshow,$nation,$author,$categery]);
+        DB::insert("insert into video(id,name,duration,firstshow,nation,author,categery,node) values(?,?,?,?,?,?,?,?)",[$result1[0]->table_seq,$name,$duration,$firstshow,$nation,$author,$categery,config("custom.node_name")]);
         DB::update("update seq set table_seq=? where table_name=?",[$result1[0]->table_seq+1,"video"]);
     }
 
@@ -173,8 +174,7 @@ class AdminController extends Controller
         //categery
         $result2=DB::select("select * from video_categery");
 
-        $device=session("device","desktop");
-        return response()->view($device."/admin/video",[
+        return response()->view("/admin/video",[
             "video"=>$result1,
             "v_page"=>$v_page,
             "v_count"=>$result11[0]->count,
@@ -217,16 +217,12 @@ class AdminController extends Controller
 
     public function getVideoUpdate(Request $request){
         $id=$request->input("id");
-        $device=session("device","desktop");
-        if($id==null){
-            return response()->view($device."/errors/404");
-        }
         $result1=DB::select("select * from video where id=?",[$id]);
         $video=$result1[0];
         $ymd=explode("-",$video->firstshow);
         $result2=DB::select("select * from video_categery");
 
-        return response()->view($device."/admin/video-update",[
+        return response()->view("/admin/video-update",[
             "video"=>$result1[0],
             "ymd"=>$ymd,
             "categerys"=>$result2
