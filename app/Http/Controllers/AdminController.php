@@ -133,9 +133,9 @@ class AdminController extends Controller
         }
         $file->move($newPath,$newFile);
         //
-        $frame_path="./data/video/frame/".$result1[0]->table_seq.".jpg";
+        $frame_path="./data/video/frame/".$result1[0]->table_seq.".png";
         FfmpegUtil::video_frame("ffmpeg",$newFilePath,$frame_path);
-        return response()->json(["url"=>"/data/video/frame/".$result1[0]->table_seq.".jpg"]);
+        return response()->json(["url"=>"/data/video/frame/".$result1[0]->table_seq.".png"]);
     }
 
     public function addVideo(Request $request){
@@ -192,7 +192,7 @@ class AdminController extends Controller
         unlink($posterFile);
         $videoFile="./data/video/mp4/".$id.".mp4";
         unlink($videoFile);
-        $videoFrame="./data/video/frame/".$id.".jpg";
+        $videoFrame="./data/video/frame/".$id.".png";
         unlink($videoFrame);
         DB::delete("delete from video where id=?",[$id]);
     }
@@ -208,7 +208,7 @@ class AdminController extends Controller
             unlink($posterFile);
             $videoFile="./data/video/mp4/".$id.".mp4";
             unlink($videoFile);
-            $videoFrame="./data/video/frame/".$id.".jpg";
+            $videoFrame="./data/video/frame/".$id.".png";
             unlink($videoFrame);
             DB::delete("delete from video where id=?",[$id]);
         }
@@ -265,7 +265,7 @@ class AdminController extends Controller
         }
         $file->move($newPath,$newFile);
         //
-        $frame_path="./data/video/frame/".$id.".jpg";
+        $frame_path="./data/video/frame/".$id.".png";
         FfmpegUtil::video_frame("ffmpeg",$newFilePath,$frame_path);
         return response()->json(["url"=>"/data/video/frame/".$id.".mp4"]);
     }
@@ -293,9 +293,9 @@ class AdminController extends Controller
         $id=$request->input("id");
         $per=$request->input("per");
         $video_path="./data/video/mp4/".$id.".mp4";
-        $frame_path="./data/video/frame/".$id.".jpg";
+        $frame_path="./data/video/frame/".$id.".png";
         FfmpegUtil::video_frame_by_per("ffmpeg",$video_path,$frame_path,$per);
-        return response()->json(["url"=>"/data/video/frame/".$id.".jpg"]);
+        return response()->json(["url"=>"/data/video/frame/".$id.".png"]);
     }
 
 

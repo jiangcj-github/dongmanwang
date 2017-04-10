@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Util\FfmpegUtil;
 use App\Util\Random;
 use App\Util\TimeUtil;
 use Symfony\Component\HttpFoundation\Request;
@@ -83,7 +84,8 @@ class PlayController extends Controller
             } else {
                 $token = md5($secret.$fileName.$hexTime);
             }
-            $url = $protectedPath.$token."/".$hexTime.$fileName;
+            //$url = $protectedPath.$token."/".$hexTime.$fileName;
+            $url="/data/video/mp4/".$request->input("id").".mp4";
             return redirect($url);
         //}
         $device=session("device","desktop");
@@ -181,6 +183,7 @@ class PlayController extends Controller
             $name=Random::getRandString(10);
         }
         $file->move($newPath,$name.".png");
+        FfmpegUtil::pngquant($newPath.$name.".png");
         return response()->json(["url"=>"/data/comment/handle/".$handle."/".$name.".png","name"=>$name]);
     }
 

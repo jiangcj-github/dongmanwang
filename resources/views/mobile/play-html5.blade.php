@@ -7,7 +7,7 @@
 @section("main")
     <div class="content">
         <div class="playSec">
-            <svg class="vpost" viewBox="0,0,100,100" style="background: url(/data/video/frame/{!! $video->id !!}.jpg);">
+            <svg class="vpost" viewBox="0,0,100,100" style="background: url(/data/video/frame/{!! $video->id !!}.png);">
                 <g class="vpost-btn">
                     <circle r="10" cx="50" cy="50" stroke="white" fill="transparent"></circle>
                     <polygon points="47,56 47,44 56,50" fill="white"/>

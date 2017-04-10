@@ -51,13 +51,20 @@ class FfmpegUtil
     public static function video_frame($ffmpeg,$file,$outfile){
         $res=self::video_info($ffmpeg,$file);
         $ss=floor($res["seconds"]/2);
-        exec(sprintf($ffmpeg.' -ss '.$ss.' -i "%s" -f image2 -s 640*480 -y "%s"',$file,$outfile));
+        exec(sprintf($ffmpeg." -ss ".$ss." -i '%s' -s 640*480 -y '%s'",$file,$outfile));
+        exec(sprintf("pngquant '%s' --ext=.png --force"),$outfile);
     }
 
     public static function video_frame_by_per($ffmpeg,$file,$outfile,$per){
         $res=self::video_info($ffmpeg,$file);
         $ss=floor($res["seconds"]/2);
         $ss=$ss*($per/100);
-        exec(sprintf($ffmpeg.' -ss '.$ss.' -i "%s" -f image2 -s 640*480 -y "%s"',$file,$outfile));
+        exec(sprintf($ffmpeg.' -ss '.$ss.' -i "%s" -s 640*480 -y "%s"',$file,$outfile));
+        exec(sprintf("pngquant '%s' --ext=.png --force"),$outfile);
     }
+
+    public static function pngquant($file){
+        exec(sprintf("pngquant '%s' --ext=.png --force"),$file);
+    }
+
 }
