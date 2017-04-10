@@ -1,5 +1,5 @@
 /.idea
 /vendor
-/public/data
+/public/data/*
 .gitignore
 .env
