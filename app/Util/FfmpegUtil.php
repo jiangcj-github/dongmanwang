@@ -60,11 +60,11 @@ class FfmpegUtil
         $ss=floor($res["seconds"]/2);
         $ss=$ss*($per/100);
         exec(sprintf($ffmpeg.' -ss '.$ss.' -i "%s" -s 640*480 -y "%s"',$file,$outfile));
-        exec(sprintf("pngquant '%s' --ext=.png --force"),$outfile);
+        exec(sprintf("pngquant '%s' --ext=.png --force",$outfile));
     }
 
     public static function pngquant($file){
-        exec(sprintf("pngquant '%s' --ext=.png --force"),$file);
+        exec(sprintf("pngquant '%s' --ext=.png --force",$file));
     }
 
 }
