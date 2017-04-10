@@ -70,7 +70,7 @@ class PlayController extends Controller
         //比较client_token与server_token是否一致
         $client_token=$request->input("token");
         $server_token=session("video_token",Random::getRandString(20));
-        if($server_token==$client_token){
+        //if($server_token==$client_token){
             $request->session()->forget('video_token');
             //apache mod_auth_token
             $secret = "lindakai";
@@ -85,7 +85,7 @@ class PlayController extends Controller
             }
             $url = $protectedPath.$token."/".$hexTime.$fileName;
             return redirect($url);
-        }
+        //}
         $device=session("device","desktop");
         return response()->view($device."/errors/404");
     }
