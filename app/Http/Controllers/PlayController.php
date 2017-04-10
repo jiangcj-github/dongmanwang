@@ -75,7 +75,7 @@ class PlayController extends Controller
             //apache mod_auth_token
             $secret = "lindakai";
             $protectedPath = "/data/video/mp4/";
-            $ipLimitation = true;
+            $ipLimitation = false;
             $hexTime = dechex(time());
             $fileName = "/".$request->input("id").".mp4";
             if ($ipLimitation) {
