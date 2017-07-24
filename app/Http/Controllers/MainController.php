@@ -49,6 +49,8 @@ class MainController extends Controller
         ]);
     }
 
+    //合并数组需要使用array_merge,使用+会覆盖
+    //嵌套查询结果未去重
     public function getSearch(Request $request){
         $key=$request->input("key");
         $device=session("device","desktop");
